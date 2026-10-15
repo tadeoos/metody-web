@@ -1,0 +1,51 @@
+---
+// Numbered circles for "Jak pracujemy": each step is a little more filled in
+// than the previous one (after the Figma mock-up).
+interface Props {
+  n: 1 | 2 | 3 | 4 | 5;
+}
+const { n } = Astro.props;
+const hatchId = `hatch-${n}`;
+const lightNumber = n >= 4;
+---
+
+<svg class="step-icon" viewBox="0 0 48 48" width="48" height="48" aria-hidden="true" focusable="false">
+  {n === 4 && (
+    <defs>
+      <pattern id={hatchId} width="4" height="4" patternUnits="userSpaceOnUse" patternTransform="rotate(45)">
+        <rect width="2.2" height="4" fill="currentColor" />
+      </pattern>
+    </defs>
+  )}
+  {n === 1 && <circle cx="24" cy="24" r="22" fill="none" stroke="currentColor" stroke-width="1.5" />}
+  {n === 2 && (
+    <>
+      <circle cx="24" cy="24" r="22" fill="none" stroke="currentColor" stroke-width="1.5" />
+      <circle cx="24" cy="24" r="18.5" fill="none" stroke="currentColor" stroke-width="1.5" />
+    </>
+  )}
+  {n === 3 && <circle cx="24" cy="24" r="20.5" fill="none" stroke="currentColor" stroke-width="4.5" />}
+  {n === 4 && (
+    <>
+      <circle cx="24" cy="24" r="22" fill={`url(#${hatchId})`} stroke="currentColor" stroke-width="2" />
+      <circle cx="24" cy="24" r="14" fill="currentColor" />
+    </>
+  )}
+  {n === 5 && <circle cx="24" cy="24" r="23" fill="currentColor" />}
+  <text
+    x="24"
+    y="25"
+    text-anchor="middle"
+    dominant-baseline="middle"
+    font-size="20"
+    font-weight="600"
+    fill={lightNumber ? 'var(--niche, #fff)' : 'currentColor'}
+  >{n}</text>
+</svg>
+
+<style>
+  .step-icon {
+    flex: none;
+    font-family: var(--font);
+  }
+</style>

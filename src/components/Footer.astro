@@ -1,0 +1,31 @@
+---
+import LogoMark from './LogoMark.astro';
+import { site } from '../data/site';
+const year = new Date().getFullYear();
+---
+
+<footer class="site-footer">
+  <div class="wrap inner">
+    <LogoMark size={32} />
+    <p>© {year} {site.owner}. {site.tagline}.</p>
+  </div>
+</footer>
+
+<style>
+  .site-footer {
+    border-top: 1px solid var(--line);
+    color: var(--muted);
+    font-size: var(--step--1);
+  }
+
+  .inner {
+    display: flex;
+    align-items: center;
+    gap: 1rem;
+    padding-block: 2rem;
+  }
+
+  p {
+    margin: 0;
+  }
+</style>

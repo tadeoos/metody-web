@@ -1,0 +1,19 @@
+---
+import Base from '../layouts/Base.astro';
+import { url } from '../data/site';
+---
+
+<Base title="Nie ma takiej strony">
+  <section class="section wrap">
+    <h1>Nie ma takiej strony</h1>
+    <p>Adres mógł się zmienić albo zawierać literówkę.</p>
+    <p><a href={url('/')}>Wróć na stronę główną</a> albo zobacz <a href={url('/#realizacje')}>nasze realizacje</a>.</p>
+  </section>
+</Base>
+
+<style>
+  h1 {
+    font-size: var(--step-3);
+    margin-bottom: 1.5rem;
+  }
+</style>

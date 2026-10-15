@@ -1,0 +1,8 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 48 48">
+  <style>g,circle{stroke:#24211d}@media (prefers-color-scheme:dark){g,circle{stroke:#fff}}</style>
+  <defs><clipPath id="c"><circle cx="24" cy="24" r="21.5"/></clipPath></defs>
+  <g clip-path="url(#c)" fill="none" stroke-width="2.4">
+    <path d="M-34 52 C -20 36, -16 22, 0 -4"/><path d="M-25 52 C -11 36, -7 22, 9 -4"/><path d="M-16 52 C -2 36, 2 22, 18 -4"/><path d="M-7 52 C 7 36, 11 22, 27 -4"/><path d="M2 52 C 16 36, 20 22, 36 -4"/><path d="M11 52 C 25 36, 29 22, 45 -4"/><path d="M20 52 C 34 36, 38 22, 54 -4"/><path d="M29 52 C 43 36, 47 22, 63 -4"/>
+  </g>
+  <circle cx="24" cy="24" r="22.5" fill="none" stroke-width="2.6"/>
+</svg>

@@ -1,0 +1,397 @@
+---
+import { Picture } from 'astro:assets';
+import { getCollection } from 'astro:content';
+import Base from '../layouts/Base.astro';
+import StepIcon from '../components/StepIcon.astro';
+import { site, telHref, url } from '../data/site';
+import hero from '../content/realizacje/stara-ochota/03.jpg';
+
+const projects = (await getCollection('realizacje')).sort((a, b) => a.data.order - b.data.order);
+
+const steps = [
+  {
+    title: 'Ustalenie ram współpracy',
+    text: [
+      'Na wstępie musimy wiedzieć, co i w jakim terminie mamy zbudować. Najwygodniej rozmawiać o tym w oparciu o projekt. W przypadku nieskomplikowanych realizacji wystarczy nawet szkic na serwetce. Jeśli ma powstać coś większego, przyda się bardziej zaawansowany projekt – bez obaw, możemy Cię w tym wesprzeć!',
+    ],
+  },
+  {
+    title: 'Wycena',
+    text: [
+      'Na podstawie omówionego projektu przygotujemy wycenę. Przedstawimy w niej, z jakich konkretnie materiałów powstaną Twoje meble, jakie zastosujemy okucia i wykończenie. Koszt przygotowania wyceny jest po naszej stronie.',
+      'Jeśli jednak z góry wiadomo, że nie będziemy realizować Twojego zlecenia, bo na przykład nie zgrywamy się terminowo, a i tak chcesz dostać od nas wycenę, możemy potraktować to jako odrębną, odpłatną usługę.',
+    ],
+  },
+  {
+    title: 'Pomiar i projekt wykonawczy',
+    text: [
+      'Gdy już będziemy wiedzieć co, kiedy i za ile, dopniemy sprawę od strony formalnej i poprosimy Cię o zaliczkę. Pracę zaczniemy od szczegółowych pomiarów i rysunków technicznych. To też czas na ostatnie, najbardziej szczegółowe decyzje – na przykład o układzie liści wybranego przez Ciebie forniru czy sposobie jego malowania.',
+    ],
+  },
+  {
+    title: 'Praca w stolarni',
+    text: [
+      'Możliwie dużą część pracy wykonamy w naszej pracowni. Na tym etapie nie będziemy nadmiernie zawracać Ci głowy.',
+    ],
+  },
+  {
+    title: 'Montaż',
+    text: [
+      'W umówionym terminie przyjedziemy do Ciebie z przygotowanymi w pracowni meblami. Na miejscu złożymy je w całość, dotniemy i doszlifujemy tak, żeby ostateczny efekt był jak najlepszy.',
+    ],
+  },
+] as const;
+---
+
+<Base>
+  <section class="hero wrap" aria-labelledby="hero-title">
+    <div class="hero-text">
+      <h1 id="hero-title">Meble na zamówienie</h1>
+      <p class="hero-lead">
+        Pracownia stolarska. Lubimy niestandardowe zlecenia i wiemy, że o efekcie często decydują niuanse.
+      </p>
+    </div>
+    <Picture
+      src={hero}
+      alt="Salon na Starej Ochocie: łukowa wnęka z witryną i regały z książkami"
+      class="hero-image corner"
+      formats={['avif', 'webp']}
+      widths={[640, 960, 1280, 1920]}
+      sizes="(min-width: 76rem) 72rem, 100vw"
+      loading="eager"
+      fetchpriority="high"
+    />
+  </section>
+
+  <section id="o-nas" class="section wrap about" aria-labelledby="o-nas-title">
+    <h2 id="o-nas-title" class="section-title">O nas</h2>
+    <div class="prose">
+      <p class="about-lead">Specjalizujemy się w meblach na zamówienie.</p>
+      <p>
+        Lubimy niestandardowe zlecenia i rozumiemy, że niuanse często mają olbrzymie znaczenie dla
+        ostatecznego efektu. Działamy w skali rzemieślniczej, dzięki czemu możemy poświęcić na Twój
+        projekt tyle uwagi, ile tylko będzie potrzebne.
+      </p>
+    </div>
+  </section>
+
+  <section id="realizacje" class="section wrap projects" aria-labelledby="realizacje-title">
+    <h2 id="realizacje-title" class="section-title">Wybrane realizacje</h2>
+    <ul class="project-grid">
+      {
+        projects.map((p, i) => (
+          <li class:list={['project', { 'project--wide': i === 0 }]}>
+            <a href={url(`/realizacje/${p.id}/`)}>
+              <Picture
+                src={p.data.photos[0].src}
+                alt=""
+                class="project-image corner-sm"
+                formats={['avif', 'webp']}
+                widths={[480, 720, 1080, 1440]}
+                sizes={i === 0 ? '(min-width: 76rem) 72rem, 100vw' : '(min-width: 48rem) 36rem, 100vw'}
+              />
+              <h3>{p.data.title}</h3>
+              {p.data.subtitle && <p>{p.data.subtitle}</p>}
+            </a>
+          </li>
+        ))
+      }
+    </ul>
+  </section>
+
+  <section id="jak-pracujemy" class="process" aria-labelledby="jak-pracujemy-title">
+    <div class="section wrap process-inner">
+      <div class="process-intro">
+        <h2 id="jak-pracujemy-title" class="section-title">Jak pracujemy</h2>
+        <p>Od pierwszej rozmowy do montażu w pięciu krokach. Kliknij krok, żeby przeczytać więcej.</p>
+      </div>
+      <ol class="steps">
+        {
+          steps.map((s, i) => (
+            <li>
+              <details>
+                <summary>
+                  <StepIcon n={(i + 1) as 1 | 2 | 3 | 4 | 5} />
+                  <span class="step-title">{s.title}</span>
+                  <span class="step-toggle" aria-hidden="true" />
+                </summary>
+                <div class="step-body">
+                  {s.text.map((t) => (
+                    <p>{t}</p>
+                  ))}
+                </div>
+              </details>
+            </li>
+          ))
+        }
+      </ol>
+    </div>
+  </section>
+
+  <section id="kontakt" class="section wrap contact" aria-labelledby="kontakt-title">
+    <h2 id="kontakt-title" class="section-title">Kontakt</h2>
+    <p class="contact-lead">Masz pomysł na mebel? Napisz albo zadzwoń – zaczniemy od rozmowy.</p>
+    <ul class="contact-list">
+      {site.email && (
+        <li>
+          <a href={`mailto:${site.email}`}>{site.email}</a>
+        </li>
+      )}
+      {site.phone && (
+        <li>
+          <a href={telHref(site.phone)}>{site.phone}</a>
+        </li>
+      )}
+    </ul>
+    {
+      (site.facebook || site.instagram) && (
+        <p class="social">
+          {site.facebook && <a href={site.facebook}>Facebook</a>}
+          {site.instagram && <a href={site.instagram}>Instagram</a>}
+        </p>
+      )
+    }
+  </section>
+</Base>
+
+<style>
+  /* Hero */
+  .hero {
+    padding-top: clamp(2rem, 1rem + 5vw, 5rem);
+  }
+
+  h1 {
+    font-size: var(--step-4);
+    font-weight: 350;
+    letter-spacing: -0.02em;
+    max-width: 12ch;
+  }
+
+  .hero-text {
+    display: grid;
+    gap: 1.5rem 4rem;
+    margin-bottom: clamp(2rem, 1rem + 4vw, 4rem);
+  }
+
+  .hero-lead {
+    font-size: var(--step-1);
+    line-height: 1.45;
+    max-width: 26rem;
+    margin: 0;
+    color: var(--muted);
+  }
+
+  @media (min-width: 56rem) {
+    .hero-text {
+      grid-template-columns: 1fr auto;
+      align-items: end;
+    }
+  }
+
+  .hero-image :global(img),
+  :global(.hero-image) {
+    width: 100%;
+    aspect-ratio: 4 / 5;
+    object-fit: cover;
+  }
+
+  @media (min-width: 48rem) {
+    .hero-image :global(img),
+    :global(.hero-image) {
+      aspect-ratio: 5 / 3;
+    }
+  }
+
+  /* About */
+  .about {
+    display: grid;
+    gap: 0 4rem;
+  }
+
+  .about-lead {
+    font-size: var(--step-2);
+    line-height: 1.25;
+    margin-bottom: 1.25rem;
+  }
+
+  @media (min-width: 56rem) {
+    .about {
+      grid-template-columns: 1fr 2fr;
+    }
+  }
+
+  /* Projects */
+  .projects {
+    padding-top: 0;
+  }
+
+  .project-grid {
+    display: grid;
+    gap: clamp(2.5rem, 1.5rem + 3vw, 4.5rem) var(--gutter);
+    margin: 0;
+    padding: 0;
+    list-style: none;
+  }
+
+  @media (min-width: 48rem) {
+    .project-grid {
+      grid-template-columns: 1fr 1fr;
+    }
+    .project--wide {
+      grid-column: 1 / -1;
+    }
+  }
+
+  .project a {
+    display: block;
+    text-decoration: none;
+  }
+
+  :global(.project-image) {
+    width: 100%;
+    aspect-ratio: 4 / 3;
+    object-fit: cover;
+    transition: border-radius 0.4s ease;
+  }
+
+  @media (min-width: 48rem) {
+    .project--wide :global(.project-image) {
+      aspect-ratio: 16 / 9;
+    }
+  }
+
+  /* The corner grows on hover, a nod to the rounded furniture edges */
+  .project a:hover :global(.project-image),
+  .project a:focus-visible :global(.project-image) {
+    border-bottom-right-radius: var(--corner);
+  }
+
+  .project h3 {
+    font-size: var(--step-2);
+    margin-top: 1.1rem;
+  }
+
+  .project p {
+    margin: 0.35rem 0 0;
+    color: var(--muted);
+  }
+
+  .project a:hover h3 {
+    color: var(--walnut);
+  }
+
+  /* Process */
+  .process {
+    background: var(--niche);
+    color: var(--niche-ink);
+    border-radius: 0 var(--corner) 0 0;
+  }
+
+  .process-inner {
+    display: grid;
+    gap: 2rem 4rem;
+  }
+
+  @media (min-width: 56rem) {
+    .process-inner {
+      grid-template-columns: 1fr 2fr;
+      align-items: start;
+    }
+  }
+
+  .process-intro p {
+    max-width: 22rem;
+  }
+
+  .steps {
+    margin: 0;
+    padding: 0;
+    list-style: none;
+  }
+
+  .steps li + li {
+    border-top: 1px solid color-mix(in srgb, var(--niche-ink) 22%, transparent);
+  }
+
+  summary {
+    display: flex;
+    align-items: center;
+    gap: 1.25rem;
+    padding-block: 1rem;
+    cursor: pointer;
+    list-style: none;
+  }
+
+  summary::-webkit-details-marker {
+    display: none;
+  }
+
+  .step-title {
+    flex: 1;
+    font-size: var(--step-1);
+    line-height: 1.3;
+  }
+
+  .step-toggle {
+    position: relative;
+    width: 1rem;
+    height: 1rem;
+    flex: none;
+  }
+
+  .step-toggle::before,
+  .step-toggle::after {
+    content: '';
+    position: absolute;
+    inset: 50% 0 auto;
+    height: 1.5px;
+    background: currentColor;
+    transition: transform 0.25s ease;
+  }
+
+  .step-toggle::after {
+    transform: rotate(90deg);
+  }
+
+  details[open] .step-toggle::after {
+    transform: rotate(0deg);
+  }
+
+  .step-body {
+    padding: 0 0 1.5rem calc(48px + 1.25rem);
+    max-width: calc(var(--measure) + 48px + 1.25rem);
+  }
+
+  @media (max-width: 30rem) {
+    .step-body {
+      padding-left: 0;
+    }
+  }
+
+  /* Contact */
+  .contact-lead {
+    font-size: var(--step-1);
+    max-width: 30rem;
+    color: var(--muted);
+  }
+
+  .contact-list {
+    margin: 2rem 0 0;
+    padding: 0;
+    list-style: none;
+    /* Large, but the e-mail address must fit on one line on a phone */
+    font-size: min(var(--step-3), 6.4vw);
+    line-height: 1.25;
+    overflow-wrap: anywhere;
+  }
+
+  .contact-list a {
+    text-decoration-thickness: 2px;
+  }
+
+  .social {
+    display: flex;
+    gap: 1.5rem;
+    margin-top: 2rem;
+  }
+</style>
