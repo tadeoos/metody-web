@@ -1,12 +1,11 @@
 ---
-import LogoMark from './LogoMark.astro';
+import Logo from '../assets/logo/logo-metody.svg';
 import { site, url } from '../data/site';
 ---
 
 <header class="site-header wrap">
   <a class="brand" href={url('/')} aria-label={`${site.name} – strona główna`}>
-    <LogoMark size={40} />
-    <span class="wordmark">{site.name}</span>
+    <Logo class="logo" aria-hidden="true" />
   </a>
   <nav aria-label="Główna nawigacja">
     <ul>
@@ -30,15 +29,13 @@ import { site, url } from '../data/site';
   .brand {
     display: inline-flex;
     align-items: center;
-    gap: 0.7rem;
     text-decoration: none;
   }
 
-  .wordmark {
-    font-size: 1.25rem;
-    font-weight: 500;
-    letter-spacing: 0.28em;
-    text-transform: uppercase;
+  .logo {
+    display: block;
+    width: auto;
+    height: 2.5rem;
   }
 
   ul {

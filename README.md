@@ -21,7 +21,7 @@ pnpm build      # produkcyjny build do dist/
 | Teksty „O nas” i „Jak pracujemy”   | `src/pages/index.astro`                       |
 | Realizacje (teksty + zdjęcia)      | `src/content/realizacje/<nazwa>/`             |
 | Kolory, fonty                      | `src/styles/global.css` (zmienne na górze)    |
-| Logo                               | `src/components/LogoMark.astro`, `public/favicon.svg` |
+| Logo (SVG wycięte z `brand/Metody_logo_krzywe.pdf`) | `src/assets/logo/`, `public/favicon.svg` |
 
 ## Jak dodać nową realizację
 

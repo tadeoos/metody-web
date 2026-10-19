@@ -1,13 +1,13 @@
 ---
-import LogoMark from './LogoMark.astro';
+import Logo from '../assets/logo/logo-pracownia.svg';
 import { site } from '../data/site';
 const year = new Date().getFullYear();
 ---
 
 <footer class="site-footer">
   <div class="wrap inner">
-    <LogoMark size={32} />
-    <p>© {year} {site.owner}. {site.tagline}.</p>
+    <Logo class="logo" aria-label={`${site.name} – ${site.tagline.toLowerCase()}`} role="img" />
+    <p>© {year} {site.owner}</p>
   </div>
 </footer>
 
@@ -20,9 +20,18 @@ const year = new Date().getFullYear();
 
   .inner {
     display: flex;
+    flex-wrap: wrap;
     align-items: center;
-    gap: 1rem;
-    padding-block: 2rem;
+    justify-content: space-between;
+    gap: 1rem 2rem;
+    padding-block: 2.5rem;
+  }
+
+  .logo {
+    display: block;
+    width: auto;
+    height: 3rem;
+    color: var(--ink);
   }
 
   p {
