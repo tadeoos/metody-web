@@ -2,11 +2,7 @@
 title: Stara Ochota
 subtitle: Mieszkanie od biblioteki po łazienkę
 order: 2
-metryczka:
-  projekt: "[do uzupełnienia]"
-  wykonanie: Metody
-  inwestor: "[do uzupełnienia]"
-  zdjecia: Jędrzej Sokołowski
+zdjecia: Jędrzej Sokołowski
 photos:
   - src: ./01.jpg
     alt: Salon z biblioteką od podłogi do sufitu na drewnianych regałach
@@ -24,14 +20,17 @@ photos:
     alt: Jasne szafy wnękowe w sypialni, obok drewniana obudowa
   - src: ./08.jpg
     alt: Detal białego frontu z wycięciami wentylacyjnymi
+    caption: Wycięcia wentylacyjne we froncie zabudowy
   - src: ./09.jpg
     alt: Kuchnia z drewnianymi szafkami, bordową kuchenką i marmurową ścianą
   - src: ./10.jpg
     alt: Narożnik kuchni ze zlewem pod oknem i bordowym piekarnikiem
   - src: ./11.jpg
     alt: Kuchnia z zamkniętą wysoką zabudową z drewna
+    caption: Kuchnia z zamkniętą zabudową…
   - src: ./12.jpg
     alt: Ta sama kuchnia z otwartym barkiem we wnęce
+    caption: …i z otwartym barkiem schowanym we wnęce
   - src: ./13.jpg
     alt: Wysoka witryna ze szkłem obok bordowych drzwi
   - src: ./14.jpg

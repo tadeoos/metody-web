@@ -2,9 +2,6 @@
 title: Drobne
 subtitle: Kuchnie, łazienki i mniejsze zlecenia
 order: 3
-metryczka:
-  wykonanie: Metody
-  zdjecia: "[do uzupełnienia]"
 photos:
   - src: ./01.jpg
     alt: Biała kuchnia z zaokrąglonym końcem zabudowy na jodełce
@@ -12,6 +9,7 @@ photos:
     alt: Długa biała zabudowa kuchenna bez uchwytów
   - src: ./03.jpg
     alt: Wisząca konsola z dębu z zaokrąglonym narożnikiem i wysoka biała szafa
+    caption: Wisząca konsola z dębu z zaokrąglonym narożnikiem
   - src: ./04.jpg
     alt: Wisząca szafka łazienkowa z fornirowanymi frontami pod umywalką
   - src: ./05.jpg

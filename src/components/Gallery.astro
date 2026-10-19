@@ -14,29 +14,22 @@ interface Props {
 
 const { photos } = Astro.props;
 
-// Editorial rhythm: a full-width landscape shot, then pairs of photos with
-// the same orientation, then full width again, and so on.
-const isPortrait = (p: Photo) => p.src.height > p.src.width * 1.05;
-type Item = { photo: Photo; index: number };
-type Row = { kind: 'full' | 'pair' | 'single'; portrait: boolean; items: Item[] };
-const rows: Row[] = [];
-let lastWasFull = false;
-for (let i = 0; i < photos.length; i++) {
-  const p = photos[i];
-  const next = photos[i + 1];
-  const portrait = isPortrait(p);
-  if (!portrait && (!lastWasFull || !next)) {
-    rows.push({ kind: 'full', portrait, items: [{ photo: p, index: i }] });
-    lastWasFull = true;
-  } else if (next && isPortrait(next) === portrait) {
-    rows.push({ kind: 'pair', portrait, items: [{ photo: p, index: i }, { photo: next, index: i + 1 }] });
-    lastWasFull = false;
-    i++;
-  } else {
-    rows.push({ kind: portrait ? 'single' : 'full', portrait, items: [{ photo: p, index: i }] });
-    lastWasFull = !portrait;
-  }
-}
+// Photos alternate between the left and right edge of the screen (as in the
+// Figma mock-up). On wide screens each photo is pulled up next to the previous
+// one, so the column reads as a loose zigzag rather than a long stack.
+// Sizes are in container-width units (cqw).
+const WIDE = { landscape: 48, portrait: 40 };
+const ratio = (p: Photo) => p.src.height / p.src.width;
+const isPortrait = (p: Photo) => ratio(p) > 1.05;
+const items = photos.map((photo, index) => {
+  const w = isPortrait(photo) ? WIDE.portrait : WIDE.landscape;
+  return { photo, index, side: index % 2 === 0 ? 'right' : 'left', w, h: w * ratio(photo) };
+});
+// Overlap with the previous photo; capped so a photo never collides with
+// the one two steps back on the same side.
+const overlap = items.map((it, i) =>
+  i === 0 ? 0 : Math.min(0.4 * items[i - 1].h, 0.6 * it.h),
+);
 
 // Large versions for the lightbox.
 const full = await Promise.all(
@@ -46,35 +39,30 @@ const full = await Promise.all(
 
 <div class="gallery" data-gallery>
   {
-    rows.map((row) => (
-      <div class:list={['row', `row--${row.kind}`, { 'row--portrait': row.portrait }]}>
-        {row.items.map(({ photo, index }) => (
-          <figure>
-            <button
-              type="button"
-              class="open"
-              data-index={index}
-              data-full={full[index].src}
-              data-alt={photo.alt}
-              data-caption={photo.caption ?? ''}
-              aria-label={`Powiększ zdjęcie: ${photo.alt}`}
-            >
-              <Picture
-                src={photo.src}
-                alt={photo.alt}
-                formats={['avif', 'webp']}
-                widths={[480, 720, 1080, 1440, 1920]}
-                sizes={
-                  row.kind === 'full'
-                    ? '(min-width: 76rem) 72rem, 100vw'
-                    : '(min-width: 48rem) 36rem, 100vw'
-                }
-              />
-            </button>
-            {photo.caption && <figcaption>{photo.caption}</figcaption>}
-          </figure>
-        ))}
-      </div>
+    items.map(({ photo, index, side, w }) => (
+      <figure
+        class:list={['item', `item--${side}`, { 'item--portrait': isPortrait(photo) }]}
+        style={`--w: ${w}; --ov: ${overlap[index].toFixed(2)}`}
+      >
+        <button
+          type="button"
+          class="open"
+          data-index={index}
+          data-full={full[index].src}
+          data-alt={photo.alt}
+          data-caption={photo.caption ?? ''}
+          aria-label={`Powiększ zdjęcie: ${photo.alt}`}
+        >
+          <Picture
+            src={photo.src}
+            alt={photo.alt}
+            formats={['avif', 'webp']}
+            widths={[480, 720, 1080, 1440]}
+            sizes="(min-width: 48rem) 48vw, 90vw"
+          />
+        </button>
+        {photo.caption && <figcaption>{photo.caption}</figcaption>}
+      </figure>
     ))
   }
 </div>
@@ -145,27 +133,36 @@ const full = await Promise.all(
 
 <style>
   .gallery {
-    display: grid;
+    container-type: inline-size;
+    display: flex;
+    flex-direction: column;
     gap: var(--gutter);
+    max-width: 96rem;
+    margin-inline: auto;
   }
 
-  .row {
-    display: grid;
-    gap: var(--gutter);
+  .item {
+    margin: 0;
+    width: 88cqw;
+  }
+
+  .item--portrait {
+    width: 74cqw;
+  }
+
+  .item--right {
+    margin-left: auto;
   }
 
   @media (min-width: 48rem) {
-    .row--pair {
-      grid-template-columns: 1fr 1fr;
+    .item {
+      width: calc(var(--w) * 1cqw);
+      margin-top: calc(var(--ov) * -1cqw);
     }
-    .row--single {
-      width: 50%;
-      margin-inline: auto;
-    }
-  }
 
-  figure {
-    margin: 0;
+    .item:first-child {
+      margin-top: 0;
+    }
   }
 
   .open {
@@ -175,6 +172,16 @@ const full = await Promise.all(
     border: 0;
     background: none;
     cursor: zoom-in;
+    overflow: hidden;
+  }
+
+  /* Rounded on the side facing the middle of the page */
+  .item--left .open {
+    border-radius: 0 var(--corner-sm) var(--corner-sm) 0;
+  }
+
+  .item--right .open {
+    border-radius: var(--corner-sm) 0 0 var(--corner-sm);
   }
 
   .open :global(img) {
@@ -182,19 +189,18 @@ const full = await Promise.all(
     height: auto;
   }
 
-  .row--pair :global(img) {
-    aspect-ratio: 5 / 4;
-    object-fit: cover;
-  }
-
-  .row--pair.row--portrait :global(img) {
-    aspect-ratio: 4 / 5;
-  }
-
   figcaption {
     margin-top: 0.6rem;
     font-size: var(--step--1);
     color: var(--muted);
+  }
+
+  .item--left figcaption {
+    padding-left: var(--gutter);
+  }
+
+  .item--right figcaption {
+    padding-right: var(--gutter);
   }
 
   /* Lightbox */

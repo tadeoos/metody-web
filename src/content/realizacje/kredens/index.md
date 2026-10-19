@@ -2,13 +2,7 @@
 title: Kredens
 subtitle: Lity orzech w secesyjnej kamienicy
 order: 1
-metryczka:
-  # W nazwach plików zdjęć pojawia się „Jan Strumiłło” – do potwierdzenia, kim jest (projektant? inwestor?).
-  projekt: "[do uzupełnienia]"
-  wykonanie: Metody
-  inwestor: "[do uzupełnienia]"
-  zdjecia: Jędrzej Sokołowski
-  materialy: lity orzech czerwonolistny
+zdjecia: Jędrzej Sokołowski
 photos:
   - src: ./01.jpg
     alt: Kredens z orzecha na całą wysokość ściany, z błękitną wnęką i półką z kamienia
@@ -18,6 +12,7 @@ photos:
     alt: Zbliżenie na błękitną wnękę i rysunek słojów orzecha
   - src: ./05.jpg
     alt: Detal krawędzi kamiennego blatu i orzechowego frontu
+    caption: Detal – kamienny blat i orzechowy front
   - src: ./03.jpg
     alt: Kredens widziany z boku, z zaokrąglonym narożnikiem, w głębi przedpokój
 ---

@@ -16,17 +16,8 @@ const realizacje = defineCollection({
       subtitle: z.string().optional(),
       // Lower numbers are shown first on the home page.
       order: z.number(),
-      metryczka: z
-        .object({
-          projekt: z.string().optional(),
-          wykonanie: z.string().optional(),
-          inwestor: z.string().optional(),
-          zdjecia: z.string().optional(),
-          rok: z.union([z.string(), z.number()]).optional(),
-          materialy: z.string().optional(),
-          wymiary: z.string().optional(),
-        })
-        .default({}),
+      // Photo credit, shown as a small line under the description.
+      zdjecia: z.string().optional(),
       // The first photo is the cover (home page tile + top of the project page).
       photos: z
         .array(

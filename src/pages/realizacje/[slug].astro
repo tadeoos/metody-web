@@ -19,25 +19,15 @@ interface Props {
 }
 
 const { project, next } = Astro.props;
-const { title, subtitle, metryczka, photos } = project.data;
+const { title, subtitle, zdjecia, photos } = project.data;
 const { Content } = await render(project);
 const [cover, ...rest] = photos;
 
-const facts = [
-  ['Projekt', metryczka.projekt],
-  ['Wykonanie', metryczka.wykonanie],
-  ['Inwestor', metryczka.inwestor],
-  ['Rok', metryczka.rok],
-  ['Materiały', metryczka.materialy],
-  ['Wymiary', metryczka.wymiary],
-  ['Zdjęcia', metryczka.zdjecia],
-].filter(([, v]) => v !== undefined && v !== '') as [string, string | number][];
 ---
 
 <Base title={title} description={subtitle ? `${title}: ${subtitle.toLowerCase()}.` : undefined} image={cover.src}>
   <article>
     <header class="wrap intro">
-      <a class="back" href={url('/#realizacje')}>Wszystkie realizacje</a>
       <h1>{title}</h1>
       {subtitle && <p class="subtitle">{subtitle}</p>}
     </header>
@@ -55,29 +45,16 @@ const facts = [
       />
     </div>
 
-    <div class="wrap details">
-      {
-        facts.length > 0 && (
-          <dl class="facts">
-            {facts.map(([k, v]) => (
-              <div>
-                <dt>{k}</dt>
-                <dd>{v}</dd>
-              </div>
-            ))}
-          </dl>
-        )
-      }
-      <div class="prose description">
+    <div class="wrap description">
+      <div class="prose">
         <Content />
       </div>
+      {zdjecia && <p class="credit">Zdjęcia: {zdjecia}</p>}
     </div>
 
     {
       rest.length > 0 && (
-        <div class="wrap">
-          <Gallery photos={rest} />
-        </div>
+        <Gallery photos={rest} />
       )
     }
 
@@ -99,12 +76,6 @@ const facts = [
     padding-block: clamp(1.5rem, 1rem + 3vw, 3.5rem) clamp(1.5rem, 1rem + 2vw, 2.5rem);
   }
 
-  .back {
-    display: inline-block;
-    margin-bottom: 1.5rem;
-    color: var(--muted);
-  }
-
   h1 {
     font-size: var(--step-4);
     font-weight: 350;
@@ -123,50 +94,20 @@ const facts = [
     object-fit: cover;
   }
 
-  .details {
-    display: grid;
-    gap: 2.5rem 4rem;
-    padding-block: clamp(2.5rem, 1.5rem + 4vw, 5rem);
-  }
-
-  @media (min-width: 56rem) {
-    .details {
-      grid-template-columns: 1fr 2fr;
-      align-items: start;
-    }
-  }
-
-  .facts {
-    margin: 0;
-    padding: 1.5rem 1.75rem;
-    border: 1.5px solid var(--ink);
-    border-radius: 0 0 var(--corner-sm) 0;
-    font-size: var(--step--1);
-  }
-
-  .facts div {
-    display: grid;
-    grid-template-columns: 7.5rem 1fr;
-    gap: 1rem;
-    padding-block: 0.3rem;
-  }
-
-  dt {
-    color: var(--muted);
-  }
-
-  dd {
-    margin: 0;
-    font-weight: 500;
-  }
-
   .description {
+    padding-block: clamp(2rem, 1.5rem + 3vw, 4rem);
     font-size: var(--step-1);
     line-height: 1.55;
   }
 
+  .credit {
+    margin: 1.5rem 0 0;
+    font-size: var(--step--1);
+    color: var(--muted);
+  }
+
   .next {
-    padding-block: clamp(4rem, 2rem + 6vw, 7rem);
+    padding-block: clamp(3rem, 2rem + 4vw, 5rem);
   }
 
   .next a {
@@ -180,7 +121,7 @@ const facts = [
   }
 
   .next-title {
-    font-size: var(--step-3);
+    font-size: var(--step-2);
     line-height: 1.15;
     text-decoration: underline;
     text-decoration-thickness: 2px;

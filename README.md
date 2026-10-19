@@ -18,7 +18,7 @@ pnpm build      # produkcyjny build do dist/
 | Co zmienić                         | Gdzie                                         |
 | ---------------------------------- | --------------------------------------------- |
 | Mail, telefon, Facebook, Instagram | `src/data/site.ts`                            |
-| Teksty „O nas” i „Jak pracujemy”   | `src/pages/index.astro`                       |
+| Tekst o pracowni i „Jak pracujemy” | `src/pages/index.astro`                       |
 | Realizacje (teksty + zdjęcia)      | `src/content/realizacje/<nazwa>/`             |
 | Kolory, fonty                      | `src/styles/global.css` (zmienne na górze)    |
 | Logo (SVG wycięte z `brand/Metody_logo_krzywe.pdf`) | `src/assets/logo/`, `public/favicon.svg` |
@@ -36,14 +36,7 @@ pnpm build      # produkcyjny build do dist/
    title: Szafa na Mokotowie
    subtitle: Jedno zdanie, które pojawi się pod tytułem
    order: 4            # kolejność na stronie głównej (mniejsza = wyżej)
-   metryczka:
-     projekt: Imię Nazwisko
-     wykonanie: Metody
-     inwestor: Imię Nazwisko
-     zdjecia: Imię Nazwisko
-     rok: 2026         # opcjonalne
-     materialy: dąb    # opcjonalne
-     wymiary: 200x240x60 cm  # opcjonalne
+   zdjecia: Imię Nazwisko   # autor zdjęć, opcjonalnie – mała linijka pod opisem
    photos:
      - src: ./01.jpg   # pierwsze zdjęcie = okładka
        alt: Krótki opis tego, co widać na zdjęciu
@@ -57,8 +50,9 @@ pnpm build      # produkcyjny build do dist/
 
 4. Commit + push do `main` – GitHub sam zbuduje i opublikuje stronę (ok. 2–3 minuty).
 
-Galeria układa się sama: zdjęcia poziome na całą szerokość, pary zdjęć o tej samej orientacji obok siebie.
-Kolejność zdjęć w `photos` decyduje o rytmie – warto pionowe ustawiać parami.
+Galeria układa się sama: zdjęcia na przemian przy lewej i prawej krawędzi ekranu, na dużym ekranie
+w luźnym zygzaku. Pole `caption` to opcjonalny podpis pod zdjęciem (mały, szary tekst) – używaj
+oszczędnie, do rzeczy, których nie widać od razu.
 
 ## Podgląd bez domeny
 
