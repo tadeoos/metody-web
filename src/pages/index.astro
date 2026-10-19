@@ -5,7 +5,6 @@ import Base from '../layouts/Base.astro';
 import StepIcon from '../components/StepIcon.astro';
 import { site, telHref, url } from '../data/site';
 import hero from '../content/realizacje/stara-ochota/03.jpg';
-import Logo from '../assets/logo/logo-pracownia.svg';
 
 const projects = (await getCollection('realizacje')).sort((a, b) => a.data.order - b.data.order);
 
@@ -44,15 +43,11 @@ const steps = [
 ] as const;
 ---
 
-<Base showHeaderLogo={false}>
+<Base>
   <section class="intro wrap" aria-labelledby="intro-title">
     <div class="intro-text">
-      <h1 id="intro-title">
-        <Logo class="intro-logo" aria-hidden="true" />
-        <span class="visually-hidden">{site.name} – {site.tagline.toLowerCase()}</span>
-      </h1>
+      <h1 id="intro-title">Specjalizujemy się w meblach na zamówienie.</h1>
       <div class="prose about">
-        <p class="about-lead">Specjalizujemy się w meblach na zamówienie.</p>
         <p>
           Lubimy niestandardowe zlecenia i rozumiemy, że niuanse często mają olbrzymie znaczenie dla
           ostatecznego efektu. Działamy w skali rzemieślniczej, dzięki czemu możemy poświęcić na Twój
@@ -128,18 +123,20 @@ const steps = [
   <section id="kontakt" class="section wrap contact" aria-labelledby="kontakt-title">
     <h2 id="kontakt-title" class="section-title">Kontakt</h2>
     <p class="contact-lead">Masz pomysł na mebel? Napisz albo zadzwoń – zaczniemy od rozmowy.</p>
-    <ul class="contact-list">
+    <dl class="contact-list">
       {site.email && (
-        <li>
-          <a href={`mailto:${site.email}`}>{site.email}</a>
-        </li>
+        <div>
+          <dt>E-mail</dt>
+          <dd><a href={`mailto:${site.email}`}>{site.email}</a></dd>
+        </div>
       )}
       {site.phone && (
-        <li>
-          <a href={telHref(site.phone)}>{site.phone}</a>
-        </li>
+        <div>
+          <dt>Telefon</dt>
+          <dd><a href={telHref(site.phone)}>{site.phone}</a></dd>
+        </div>
       )}
-    </ul>
+    </dl>
     {
       (site.facebook || site.instagram) && (
         <p class="social">
@@ -161,24 +158,19 @@ const steps = [
 
   .intro-text {
     display: grid;
-    gap: clamp(2rem, 1rem + 3vw, 3.5rem);
-    align-content: space-between;
+    gap: 1.5rem;
+    align-content: center;
   }
 
   h1 {
-    margin: 0;
+    font-size: var(--step-3);
+    font-weight: 400;
+    line-height: 1.15;
+    max-width: 15ch;
   }
 
-  :global(.intro-logo) {
-    display: block;
-    width: min(100%, 26rem);
-    height: auto;
-  }
-
-  .about-lead {
-    font-size: var(--step-2);
-    line-height: 1.25;
-    margin-bottom: 1rem;
+  .about {
+    color: var(--muted);
   }
 
   :global(.intro-image) {
@@ -191,10 +183,6 @@ const steps = [
     .intro {
       grid-template-columns: 1fr 1.15fr;
       align-items: stretch;
-    }
-
-    .intro-text {
-      padding-block: 0.5rem;
     }
 
     :global(.intro-image) {
@@ -350,17 +338,27 @@ const steps = [
   }
 
   .contact-list {
-    margin: 2rem 0 0;
-    padding: 0;
-    list-style: none;
-    /* Large, but the e-mail address must fit on one line on a phone */
-    font-size: min(var(--step-3), 6.4vw);
-    line-height: 1.25;
+    display: flex;
+    flex-wrap: wrap;
+    gap: 1.5rem clamp(2rem, 1rem + 5vw, 5rem);
+    margin: 2.5rem 0 0;
+  }
+
+  dt {
+    font-size: var(--step--1);
+    color: var(--muted);
+    margin-bottom: 0.25rem;
+  }
+
+  dd {
+    margin: 0;
+    font-size: var(--step-2);
+    line-height: 1.3;
     overflow-wrap: anywhere;
   }
 
-  .contact-list a {
-    text-decoration-thickness: 2px;
+  dd a {
+    text-decoration-thickness: 1.5px;
   }
 
   .social {

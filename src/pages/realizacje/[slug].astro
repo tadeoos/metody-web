@@ -27,29 +27,31 @@ const [cover, ...rest] = photos;
 
 <Base title={title} description={subtitle ? `${title}: ${subtitle.toLowerCase()}.` : undefined} image={cover.src}>
   <article>
-    <header class="wrap intro">
-      <h1>{title}</h1>
-      {subtitle && <p class="subtitle">{subtitle}</p>}
-    </header>
+    <div class="wrap top">
+      <header class="intro">
+        <h1>{title}</h1>
+        {subtitle && <p class="subtitle">{subtitle}</p>}
+      </header>
 
-    <div class="wrap">
-      <Picture
-        src={cover.src}
-        alt={cover.alt}
-        class="cover corner"
-        formats={['avif', 'webp']}
-        widths={[640, 960, 1280, 1920]}
-        sizes="(min-width: 76rem) 72rem, 100vw"
-        loading="eager"
-        fetchpriority="high"
-      />
-    </div>
-
-    <div class="wrap description">
-      <div class="prose">
-        <Content />
+      <div class="cover-wrap">
+        <Picture
+          src={cover.src}
+          alt={cover.alt}
+          class="cover corner"
+          formats={['avif', 'webp']}
+          widths={[640, 960, 1280, 1920]}
+          sizes="(min-width: 66rem) 62rem, 100vw"
+          loading="eager"
+          fetchpriority="high"
+        />
       </div>
-      {zdjecia && <p class="credit">Zdjęcia: {zdjecia}</p>}
+
+      <div class="description">
+        <div class="prose">
+          <Content />
+        </div>
+        {zdjecia && <p class="credit">Zdjęcia: {zdjecia}</p>}
+      </div>
     </div>
 
     {
@@ -72,8 +74,25 @@ const [cover, ...rest] = photos;
 </Base>
 
 <style>
+  /* Phones: title, cover, description. Desktop: title and description side
+     by side above the cover. */
+  .top {
+    display: grid;
+    grid-template-areas: 'intro' 'cover' 'description';
+    gap: clamp(1.5rem, 1rem + 2vw, 2.5rem) 4rem;
+    padding-block: clamp(1.5rem, 1rem + 3vw, 3.5rem) clamp(2.5rem, 1.5rem + 3vw, 4rem);
+  }
+
+  @media (min-width: 56rem) {
+    .top {
+      grid-template-columns: 1fr 1.4fr;
+      grid-template-areas: 'intro description' 'cover cover';
+      align-items: end;
+    }
+  }
+
   .intro {
-    padding-block: clamp(1.5rem, 1rem + 3vw, 3.5rem) clamp(1.5rem, 1rem + 2vw, 2.5rem);
+    grid-area: intro;
   }
 
   h1 {
@@ -88,6 +107,10 @@ const [cover, ...rest] = photos;
     margin: 0.75rem 0 0;
   }
 
+  .cover-wrap {
+    grid-area: cover;
+  }
+
   :global(.cover) {
     width: 100%;
     max-height: 85vh;
@@ -95,13 +118,13 @@ const [cover, ...rest] = photos;
   }
 
   .description {
-    padding-block: clamp(2rem, 1.5rem + 3vw, 4rem);
+    grid-area: description;
     font-size: var(--step-1);
     line-height: 1.55;
   }
 
   .credit {
-    margin: 1.5rem 0 0;
+    margin: 1.25rem 0 0;
     font-size: var(--step--1);
     color: var(--muted);
   }

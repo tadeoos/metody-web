@@ -1,12 +1,12 @@
 ---
-import Logo from '../assets/logo/logo-pracownia.svg';
+import Mark from '../assets/logo/mark.svg';
 import { site } from '../data/site';
 const year = new Date().getFullYear();
 ---
 
 <footer class="site-footer">
   <div class="wrap inner">
-    <Logo class="logo" aria-label={`${site.name} – ${site.tagline.toLowerCase()}`} role="img" />
+    <Mark class="mark" aria-hidden="true" />
     <p>© {year} {site.owner}</p>
   </div>
 </footer>
@@ -27,10 +27,10 @@ const year = new Date().getFullYear();
     padding-block: 2.5rem;
   }
 
-  .logo {
+  .mark {
     display: block;
-    width: auto;
-    height: 3rem;
+    width: 2.25rem;
+    height: 2.25rem;
     color: var(--ink);
   }
 

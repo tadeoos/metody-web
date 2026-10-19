@@ -7,7 +7,7 @@ export const site = {
     'Metody – pracownia stolarska. Meble na zamówienie i niestandardowe zlecenia, wykonywane w rzemieślniczej skali.',
   // TODO: potwierdzić adres e-mail i numer telefonu
   email: 'kontakt@pracowniametody.pl',
-  phone: '',
+  phone: '+48 123 456 789', // TODO: przykładowy numer – podmienić na prawdziwy
   facebook: '',
   instagram: '',
   owner: 'Metody',

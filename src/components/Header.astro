@@ -1,22 +1,12 @@
 ---
-import Logo from '../assets/logo/logo-metody.svg';
+import Logo from '../assets/logo/logo-pracownia.svg';
 import { site, url } from '../data/site';
-
-interface Props {
-  // The home page shows the big logo in its first section instead.
-  showLogo?: boolean;
-}
-const { showLogo = true } = Astro.props;
 ---
 
-<header class:list={['site-header', 'wrap', { 'no-logo': !showLogo }]}>
-  {
-    showLogo && (
-      <a class="brand" href={url('/')} aria-label={`${site.name} – strona główna`}>
-        <Logo class="logo" aria-hidden="true" />
-      </a>
-    )
-  }
+<header class="site-header wrap">
+  <a class="brand" href={url('/')} aria-label={`${site.name} – ${site.tagline.toLowerCase()}, strona główna`}>
+    <Logo class="logo" aria-hidden="true" />
+  </a>
   <button
     type="button"
     class="menu-toggle"
@@ -67,10 +57,6 @@ const { showLogo = true } = Astro.props;
     padding-block: 1.1rem;
   }
 
-  .no-logo {
-    justify-content: flex-end;
-  }
-
   .brand {
     display: inline-flex;
     text-decoration: none;
@@ -79,7 +65,7 @@ const { showLogo = true } = Astro.props;
   .logo {
     display: block;
     width: auto;
-    height: 2.25rem;
+    height: clamp(2.5rem, 1.8rem + 1.6vw, 3.75rem);
   }
 
   ul {
@@ -106,7 +92,7 @@ const { showLogo = true } = Astro.props;
 
   /* Phones: collapsed menu behind a toggle button */
   @media (max-width: 40rem) {
-    .menu-toggle {
+    :global(.js) .menu-toggle {
       display: inline-flex;
       align-items: center;
       gap: 0.6rem;
@@ -160,7 +146,12 @@ const { showLogo = true } = Astro.props;
       transform: translateY(-6px) rotate(-45deg);
     }
 
-    nav {
+    /* Without JavaScript the links simply stay visible below the logo */
+    .site-header {
+      flex-wrap: wrap;
+    }
+
+    :global(.js) nav {
       display: none;
       position: absolute;
       top: 100%;
@@ -172,16 +163,16 @@ const { showLogo = true } = Astro.props;
       border-bottom: 1px solid var(--line);
     }
 
-    nav:global(.open) {
+    :global(.js) nav:global(.open) {
       display: block;
     }
 
-    ul {
+    :global(.js) ul {
       flex-direction: column;
       gap: 0;
     }
 
-    nav a {
+    :global(.js) nav a {
       font-size: var(--step-2);
       padding-block: 0.6rem;
     }
