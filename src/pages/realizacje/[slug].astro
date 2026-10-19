@@ -56,7 +56,9 @@ const [cover, ...rest] = photos;
 
     {
       rest.length > 0 && (
-        <Gallery photos={rest} />
+        <div class="wrap">
+          <Gallery photos={rest} />
+        </div>
       )
     }
 
@@ -74,31 +76,11 @@ const [cover, ...rest] = photos;
 </Base>
 
 <style>
-  /* Phones: title, cover, description. Desktop: title and description side
-     by side above the cover. */
+  /* One calm column: title, cover, description, then the gallery. */
   .top {
     display: grid;
-    grid-template-areas: 'intro' 'cover' 'description';
-    gap: clamp(1.5rem, 1rem + 2vw, 2.5rem) 4rem;
-    padding-block: clamp(1.5rem, 1rem + 3vw, 3.5rem) clamp(2.5rem, 1.5rem + 3vw, 4rem);
-  }
-
-  @media (min-width: 56rem) {
-    .top {
-      grid-template-columns: 1fr 1.4fr;
-      grid-template-areas: 'intro description' 'cover cover';
-      align-items: start;
-    }
-
-    /* Pull the big title up so its letters line up with the first line
-       of the description next to it */
-    h1 {
-      margin-top: -0.16em;
-    }
-  }
-
-  .intro {
-    grid-area: intro;
+    gap: clamp(1.75rem, 1rem + 2.5vw, 3rem);
+    padding-block: clamp(1.5rem, 1rem + 3vw, 3.5rem) clamp(3rem, 2rem + 4vw, 5rem);
   }
 
   h1 {
@@ -110,11 +92,7 @@ const [cover, ...rest] = photos;
   .subtitle {
     font-size: var(--step-1);
     color: var(--muted);
-    margin: 0.75rem 0 0;
-  }
-
-  .cover-wrap {
-    grid-area: cover;
+    margin: 0.6rem 0 0;
   }
 
   :global(.cover) {
@@ -123,10 +101,17 @@ const [cover, ...rest] = photos;
     object-fit: cover;
   }
 
+  /* Description sits under the cover, indented to the right on wide
+     screens so it reads as part of the page rhythm, not a caption. */
   .description {
-    grid-area: description;
     font-size: var(--step-1);
     line-height: 1.55;
+  }
+
+  @media (min-width: 56rem) {
+    .description {
+      margin-left: 28%;
+    }
   }
 
   .credit {
@@ -136,22 +121,30 @@ const [cover, ...rest] = photos;
   }
 
   .next {
-    padding-block: clamp(3rem, 2rem + 4vw, 5rem);
+    margin-top: clamp(4rem, 2rem + 6vw, 7rem);
+    padding-block: 2rem clamp(3rem, 2rem + 4vw, 5rem);
+    border-top: 1px solid var(--line);
   }
 
   .next a {
     display: inline-flex;
     flex-direction: column;
+    gap: 0.25rem;
     text-decoration: none;
   }
 
   .next-label {
     color: var(--muted);
+    font-size: var(--step--1);
   }
 
   .next-title {
-    font-size: var(--step-2);
+    font-size: var(--step-3);
     line-height: 1.15;
+  }
+
+  .next a:hover .next-title {
+    color: var(--walnut);
     text-decoration: underline;
     text-decoration-thickness: 2px;
     text-underline-offset: 0.15em;
