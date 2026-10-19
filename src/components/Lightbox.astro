@@ -1,0 +1,151 @@
+---
+// Full-screen photo viewer for the [data-gallery] on the page: click a
+// photo to open, arrows / swipe to move, Esc or "Zamknij" to close.
+---
+
+<dialog class="lightbox" aria-label="Powiększone zdjęcie">
+  <figure>
+    <img alt="" />
+    <figcaption></figcaption>
+  </figure>
+  <button type="button" class="lb-btn lb-close" data-close aria-label="Zamknij">Zamknij</button>
+  <button type="button" class="lb-btn lb-prev" data-prev aria-label="Poprzednie zdjęcie">‹</button>
+  <button type="button" class="lb-btn lb-next" data-next aria-label="Następne zdjęcie">›</button>
+  <p class="lb-count" aria-live="polite"></p>
+</dialog>
+
+<script>
+  const gallery = document.querySelector<HTMLElement>('[data-gallery]');
+  const dialog = document.querySelector<HTMLDialogElement>('dialog.lightbox');
+
+  if (gallery && dialog) {
+    const buttons = [...gallery.querySelectorAll<HTMLButtonElement>('button.open')];
+    const img = dialog.querySelector('img')!;
+    const caption = dialog.querySelector('figcaption')!;
+    const count = dialog.querySelector('.lb-count')!;
+    let current = 0;
+
+    const show = (i: number) => {
+      current = (i + buttons.length) % buttons.length;
+      const b = buttons[current];
+      img.src = b.dataset.full!;
+      img.alt = b.dataset.alt!;
+      caption.textContent = b.dataset.caption || '';
+      count.textContent = `${current + 1} / ${buttons.length}`;
+    };
+
+    buttons.forEach((b, i) =>
+      b.addEventListener('click', () => {
+        show(i);
+        dialog.showModal();
+      }),
+    );
+
+    dialog.addEventListener('close', () => buttons[current]?.focus());
+    dialog.querySelector('[data-close]')!.addEventListener('click', () => dialog.close());
+    dialog.querySelector('[data-prev]')!.addEventListener('click', () => show(current - 1));
+    dialog.querySelector('[data-next]')!.addEventListener('click', () => show(current + 1));
+
+    // Click on the dark backdrop (not the photo) closes the dialog.
+    dialog.addEventListener('click', (e) => {
+      if (e.target === dialog || e.target === dialog.querySelector('figure')) dialog.close();
+    });
+
+    dialog.addEventListener('keydown', (e) => {
+      if (e.key === 'ArrowLeft') show(current - 1);
+      if (e.key === 'ArrowRight') show(current + 1);
+    });
+
+    let startX: number | null = null;
+    dialog.addEventListener('touchstart', (e) => (startX = e.touches[0].clientX), { passive: true });
+    dialog.addEventListener('touchend', (e) => {
+      if (startX === null) return;
+      const dx = e.changedTouches[0].clientX - startX;
+      if (Math.abs(dx) > 50) show(current + (dx < 0 ? 1 : -1));
+      startX = null;
+    });
+  }
+</script>
+
+<style>
+  .lightbox {
+    width: 100vw;
+    height: 100dvh;
+    max-width: none;
+    max-height: none;
+    margin: 0;
+    padding: 0;
+    border: 0;
+    background: rgb(20 18 16 / 0.96);
+    color: #fff;
+  }
+
+  .lightbox::backdrop {
+    background: rgb(20 18 16 / 0.96);
+  }
+
+  .lightbox figure {
+    display: grid;
+    place-items: center;
+    align-content: center;
+    gap: 0.75rem;
+    height: 100%;
+    padding: 3.5rem 1rem;
+  }
+
+  .lightbox img {
+    max-width: 100%;
+    max-height: calc(100dvh - 8rem);
+    width: auto;
+    object-fit: contain;
+  }
+
+  .lightbox figcaption {
+    color: rgb(255 255 255 / 0.75);
+    margin: 0;
+  }
+
+  .lb-btn {
+    position: absolute;
+    border: 0;
+    background: none;
+    color: #fff;
+    font: inherit;
+    cursor: pointer;
+    padding: 0.75rem 1rem;
+  }
+
+  .lb-close {
+    top: 0.5rem;
+    right: 0.5rem;
+  }
+
+  .lb-prev,
+  .lb-next {
+    top: 50%;
+    translate: 0 -50%;
+    font-size: 2.5rem;
+    line-height: 1;
+  }
+
+  .lb-prev {
+    left: 0.25rem;
+  }
+
+  .lb-next {
+    right: 0.25rem;
+  }
+
+  .lb-count {
+    position: absolute;
+    top: 1.1rem;
+    left: 1.25rem;
+    margin: 0;
+    font-size: var(--text-sm);
+    color: rgb(255 255 255 / 0.75);
+  }
+
+  .lb-btn:focus-visible {
+    outline-color: #fff;
+  }
+</style>

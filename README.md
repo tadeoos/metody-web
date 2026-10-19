@@ -50,8 +50,8 @@ pnpm build      # produkcyjny build do dist/
 
 4. Commit + push do `main` – GitHub sam zbuduje i opublikuje stronę (ok. 2–3 minuty).
 
-Galeria układa się sama: zdjęcia na przemian przy lewej i prawej krawędzi ekranu, na dużym ekranie
-w luźnym zygzaku. Pole `caption` to opcjonalny podpis pod zdjęciem (mały, szary tekst) – używaj
+Galeria układa się sama: jedno duże zdjęcie w rzędzie, na przemian przy prawej i lewej krawędzi ekranu.
+Pole `caption` to opcjonalny podpis pod zdjęciem (mały, szary tekst) – używaj
 oszczędnie, do rzeczy, których nie widać od razu.
 
 ## Podgląd bez domeny
