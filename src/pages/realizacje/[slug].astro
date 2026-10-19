@@ -84,13 +84,13 @@ const [cover, ...rest] = photos;
   }
 
   h1 {
-    font-size: var(--step-4);
+    font-size: var(--text-xl);
     font-weight: 350;
     letter-spacing: -0.02em;
   }
 
   .subtitle {
-    font-size: var(--step-1);
+    font-size: var(--text-md);
     color: var(--muted);
     margin: 0.6rem 0 0;
   }
@@ -104,8 +104,7 @@ const [cover, ...rest] = photos;
   /* Description sits under the cover, indented to the right on wide
      screens so it reads as part of the page rhythm, not a caption. */
   .description {
-    font-size: var(--step-1);
-    line-height: 1.55;
+    max-width: var(--measure);
   }
 
   @media (min-width: 56rem) {
@@ -116,7 +115,7 @@ const [cover, ...rest] = photos;
 
   .credit {
     margin: 1.25rem 0 0;
-    font-size: var(--step--1);
+    font-size: var(--text-sm);
     color: var(--muted);
   }
 
@@ -135,11 +134,11 @@ const [cover, ...rest] = photos;
 
   .next-label {
     color: var(--muted);
-    font-size: var(--step--1);
+    font-size: var(--text-sm);
   }
 
   .next-title {
-    font-size: var(--step-3);
+    font-size: var(--text-lg);
     line-height: 1.15;
   }
 
