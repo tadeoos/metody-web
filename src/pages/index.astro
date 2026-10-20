@@ -4,7 +4,7 @@ import { getCollection } from 'astro:content';
 import Base from '../layouts/Base.astro';
 import StepIcon from '../components/StepIcon.astro';
 import { site, telHref, url } from '../data/site';
-import hero from '../content/realizacje/stara-ochota/03.jpg';
+import hero from '../content/realizacje/kredens/02.jpg';
 
 const projects = (await getCollection('realizacje')).sort((a, b) => a.data.order - b.data.order);
 
@@ -46,7 +46,7 @@ const steps = [
 <Base>
   <section class="intro wrap" aria-labelledby="intro-title">
     <div class="intro-text">
-      <h1 id="intro-title">Specjalizujemy się w meblach na zamówienie.</h1>
+      <h1 id="intro-title">Specjalizujemy się w&nbsp;meblach na zamówienie.</h1>
       <div class="prose about">
         <p>
           Lubimy niestandardowe zlecenia i rozumiemy, że niuanse często mają olbrzymie znaczenie dla
@@ -57,11 +57,11 @@ const steps = [
     </div>
     <Picture
       src={hero}
-      alt="Salon na Starej Ochocie: łukowa wnęka z witryną i regały z książkami"
+      alt="Orzechowy kredens z błękitną wnęką i kamiennym blatem"
       class="intro-image corner"
       formats={['avif', 'webp']}
-      widths={[640, 960, 1280, 1600]}
-      sizes="(min-width: 56rem) 40rem, 100vw"
+      widths={[640, 960, 1280, 1600, 1920]}
+      sizes="(min-width: 66rem) 62rem, 100vw"
       loading="eager"
       fetchpriority="high"
     />
@@ -149,42 +149,47 @@ const steps = [
 </Base>
 
 <style>
-  /* Intro: logo, about text and a photo in one screen */
+  /* Intro: logo, about text and a wide photo in one screen */
   .intro {
     display: grid;
-    gap: 2rem 4rem;
-    padding-block: clamp(1.5rem, 1rem + 3vw, 3.5rem) clamp(3.5rem, 2rem + 5vw, 6.5rem);
+    gap: clamp(1.5rem, 1rem + 1.5vw, 2.5rem);
+    padding-block: clamp(1rem, 0.5rem + 2vw, 2.5rem) clamp(3.5rem, 2rem + 5vw, 6.5rem);
   }
 
   .intro-text {
     display: grid;
-    gap: 1.5rem;
-    align-content: center;
+    gap: 1rem 4rem;
+  }
+
+  @media (min-width: 48rem) {
+    .intro-text {
+      grid-template-columns: 1fr 1fr;
+      align-items: end;
+    }
+
+    .about p {
+      margin-bottom: 0;
+    }
   }
 
   h1 {
     font-size: var(--text-xl);
     font-weight: 350;
-    line-height: 1.08;
-    letter-spacing: -0.02em;
-    max-width: 14ch;
+    line-height: 1.12;
+    letter-spacing: -0.015em;
+    max-width: 20ch;
   }
 
   :global(.intro-image) {
     width: 100%;
-    aspect-ratio: 4 / 5;
+    aspect-ratio: 4 / 3;
     object-fit: cover;
   }
 
-  @media (min-width: 56rem) {
-    .intro {
-      grid-template-columns: 1fr 1.15fr;
-      align-items: stretch;
-    }
-
+  @media (min-width: 48rem) {
     :global(.intro-image) {
-      aspect-ratio: auto;
-      height: min(78vh, 46rem);
+      aspect-ratio: 2 / 1;
+      max-height: 62svh;
     }
   }
 
