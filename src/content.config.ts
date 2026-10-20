@@ -3,7 +3,7 @@ import { glob } from 'astro/loaders';
 import { z } from 'astro/zod';
 
 // Each project ("realizacja") is a folder in src/content/realizacje/<slug>/
-// holding an index.md (texts + metryczka) and its photos.
+// holding an index.md (texts) and its photos.
 const realizacje = defineCollection({
   loader: glob({
     pattern: '*/index.md',
@@ -18,6 +18,8 @@ const realizacje = defineCollection({
       order: z.number(),
       // Photo credit, shown as a small line under the description.
       zdjecia: z.string().optional(),
+      // Optional photo for the home page tile; defaults to the cover.
+      tile: image().optional(),
       // The first photo is the cover (home page tile + top of the project page).
       photos: z
         .array(

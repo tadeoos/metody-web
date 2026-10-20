@@ -37,6 +37,7 @@ pnpm build      # produkcyjny build do dist/
    subtitle: Jedno zdanie, które pojawi się pod tytułem
    order: 4            # kolejność na stronie głównej (mniejsza = wyżej)
    zdjecia: Imię Nazwisko   # autor zdjęć, opcjonalnie – mała linijka pod opisem
+   tile: ./05.jpg      # opcjonalnie: inne zdjęcie na kafelek na stronie głównej
    photos:
      - src: ./01.jpg   # pierwsze zdjęcie = okładka
        alt: Krótki opis tego, co widać na zdjęciu

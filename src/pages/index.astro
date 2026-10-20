@@ -4,7 +4,7 @@ import { getCollection } from 'astro:content';
 import Base from '../layouts/Base.astro';
 import StepIcon from '../components/StepIcon.astro';
 import { site, telHref, url } from '../data/site';
-import hero from '../content/realizacje/kredens/02.jpg';
+import hero from '../content/realizacje/stara-ochota/01.jpg';
 
 const projects = (await getCollection('realizacje')).sort((a, b) => a.data.order - b.data.order);
 
@@ -45,6 +45,16 @@ const steps = [
 
 <Base>
   <section class="intro wrap" aria-labelledby="intro-title">
+    <Picture
+      src={hero}
+      alt="Salon z biblioteką od podłogi do sufitu na drewnianych regałach"
+      class="intro-image corner"
+      formats={['avif', 'webp']}
+      widths={[640, 960, 1280, 1600, 1920]}
+      sizes="(min-width: 66rem) 62rem, 100vw"
+      loading="eager"
+      fetchpriority="high"
+    />
     <div class="intro-text">
       <h1 id="intro-title">Specjalizujemy się w&nbsp;meblach na zamówienie.</h1>
       <div class="prose about">
@@ -55,16 +65,6 @@ const steps = [
         </p>
       </div>
     </div>
-    <Picture
-      src={hero}
-      alt="Orzechowy kredens z błękitną wnęką i kamiennym blatem"
-      class="intro-image corner"
-      formats={['avif', 'webp']}
-      widths={[640, 960, 1280, 1600, 1920]}
-      sizes="(min-width: 66rem) 62rem, 100vw"
-      loading="eager"
-      fetchpriority="high"
-    />
   </section>
 
   <section id="realizacje" class="section wrap projects" aria-labelledby="realizacje-title">
@@ -75,7 +75,7 @@ const steps = [
           <li class:list={['project', { 'project--wide': i === 0 }]}>
             <a href={url(`/realizacje/${p.id}/`)}>
               <Picture
-                src={p.data.photos[0].src}
+                src={p.data.tile ?? p.data.photos[0].src}
                 alt=""
                 class="project-image corner"
                 formats={['avif', 'webp']}
@@ -149,7 +149,8 @@ const steps = [
 </Base>
 
 <style>
-  /* Intro: logo, about text and a wide photo in one screen */
+  /* Intro: a wide photo, then the headline and about text in one row
+     beneath it – logo, photo and text all fit on the first screen */
   .intro {
     display: grid;
     gap: clamp(1.5rem, 1rem + 1.5vw, 2.5rem);
@@ -163,8 +164,8 @@ const steps = [
 
   @media (min-width: 48rem) {
     .intro-text {
-      grid-template-columns: 1fr 1fr;
-      align-items: end;
+      grid-template-columns: 1.25fr 1fr;
+      align-items: start;
     }
 
     .about p {
@@ -189,7 +190,7 @@ const steps = [
   @media (min-width: 48rem) {
     :global(.intro-image) {
       aspect-ratio: 2 / 1;
-      max-height: 62svh;
+      max-height: 58svh;
     }
   }
 
