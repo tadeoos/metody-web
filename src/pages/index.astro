@@ -173,8 +173,9 @@ const steps = [
     }
   }
 
+  /* Sits next to the about text, so it stays a step below the page-headline size */
   h1 {
-    font-size: var(--text-xl);
+    font-size: clamp(1.625rem, 1.35rem + 0.9vw, 2.25rem); /* 26 → 36px */
     font-weight: 350;
     line-height: 1.12;
     letter-spacing: -0.015em;
