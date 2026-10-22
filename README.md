@@ -51,7 +51,8 @@ pnpm build      # produkcyjny build do dist/
 
 4. Commit + push do `main` – GitHub sam zbuduje i opublikuje stronę (ok. 2–3 minuty).
 
-Galeria układa się sama: jedno duże zdjęcie w rzędzie, na przemian przy prawej i lewej krawędzi ekranu.
+Galeria układa się sama. Na komputerze: zdjęcie poziome na całą szerokość, potem pary zdjęć
+o tej samej orientacji. Na telefonie: jedno zdjęcie w rzędzie, na przemian przy prawej i lewej krawędzi ekranu.
 Pole `caption` to opcjonalny podpis pod zdjęciem (mały, szary tekst) – używaj
 oszczędnie, do rzeczy, których nie widać od razu.
 
@@ -74,3 +75,10 @@ Steruje tym trzy zmienne repo (**Settings → Secrets and variables → Actions 
      (opcjonalnie IPv6 – rekordy **AAAA**: `2606:50c0:8000::153`, `2606:50c0:8001::153`, `2606:50c0:8002::153`, `2606:50c0:8003::153`)
    - dla `www.pracowniametody.pl` rekord **CNAME** → `<twoj-login>.github.io`
 5. Zalecane: zweryfikuj domenę w ustawieniach **konta** GitHub (avatar → Settings → Pages → Add a domain). Chroni to przed przejęciem domeny przez cudze repo.
+
+## Kolory zdjęć
+
+`patches/astro@7.3.8.patch` dopisuje do każdego wygenerowanego zdjęcia profil kolorów sRGB
+(bez niego część przeglądarek pokazuje barwy inaczej). Przy aktualizacji Astro trzeba odtworzyć
+łatkę: `pnpm patch astro@<wersja>`, dodać `result.withIccProfile("srgb")` po `result.rotate()`
+w `dist/assets/services/sharp.js`, potem `pnpm patch-commit`.

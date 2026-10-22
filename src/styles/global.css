@@ -1,17 +1,17 @@
 @import '@fontsource-variable/jost';
 
 /*
-  Palette taken from the workshop's own furniture:
-  white walls, walnut, and the pale blue of the kredens niche.
+  Palette: white walls, ink, and the workshop's sage green
+  (szałwiowy klasyczny, #A8B39E) for the process section and link hovers.
 */
 :root {
   --paper: #ffffff;
   --ink: #24211d;
   --muted: #6a645c;
   --line: #dcd8d2;
-  --walnut: #6e4327;
-  --niche: #d5dcf1;
-  --niche-ink: #2c3550;
+  --sage: #a8b39e;
+  --sage-ink: #262d21; /* text on the sage background */
+  --sage-dark: #5f6b54; /* the same hue, dark enough to read on white */
 
   --font: 'Jost Variable', 'Futura', 'Century Gothic', system-ui, sans-serif;
 
@@ -24,7 +24,7 @@
   --text-xl: clamp(1.875rem, 1.45rem + 1.35vw, 2.75rem); /* 30 → 44px – page headline */
 
   --gutter: clamp(1rem, 0.5rem + 2vw, 2rem);
-  --max: 66rem;
+  --max: 58rem;
   --measure: 34rem;
 
   /* The signature shape: one generous rounded corner, like the
@@ -96,11 +96,11 @@ a {
 }
 
 a:hover {
-  color: var(--walnut);
+  color: var(--sage-dark);
 }
 
 :focus-visible {
-  outline: 2px solid var(--walnut);
+  outline: 2px solid var(--sage-dark);
   outline-offset: 3px;
   border-radius: 2px;
 }

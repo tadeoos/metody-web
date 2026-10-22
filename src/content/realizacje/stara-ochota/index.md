@@ -3,8 +3,6 @@ title: Stara Ochota
 subtitle: Mieszkanie od biblioteki po łazienkę
 order: 2
 zdjecia: Jędrzej Sokołowski
-# Biblioteka jest już na górze strony głównej, więc kafelek pokazuje kuchnię
-tile: ./12.jpg
 photos:
   - src: ./01.jpg
     alt: Salon z biblioteką od podłogi do sufitu na drewnianych regałach

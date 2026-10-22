@@ -15,16 +15,38 @@ interface Props {
 
 const { photos } = Astro.props;
 
-// One large, uncropped photo per row, alternately against the right and left
-// screen edge and rounded on the side facing the middle (as in the Figma
-// mock-up). Nothing overlaps.
+// Desktop: an editorial rhythm inside the page column – a full-width landscape
+// shot, then pairs of photos with the same orientation, then full width again.
+// Phones: the rows dissolve into one photo per row, alternately against the
+// right and left screen edge (as in the Figma mock-up).
 const isPortrait = (p: Photo) => p.src.height > p.src.width * 1.05;
-const rows = photos.map((photo, index) => ({
-  photo,
-  index,
-  side: index % 2 === 0 ? 'right' : 'left',
-  portrait: isPortrait(photo),
-}));
+type Item = { photo: Photo; index: number; side: 'left' | 'right'; portrait: boolean };
+type Row = { kind: 'full' | 'pair' | 'single'; portrait: boolean; items: Item[] };
+
+const item = (i: number): Item => ({
+  photo: photos[i],
+  index: i,
+  side: i % 2 === 0 ? 'right' : 'left',
+  portrait: isPortrait(photos[i]),
+});
+
+const rows: Row[] = [];
+let lastWasFull = false;
+for (let i = 0; i < photos.length; i++) {
+  const portrait = isPortrait(photos[i]);
+  const next = photos[i + 1];
+  if (!portrait && (!lastWasFull || !next)) {
+    rows.push({ kind: 'full', portrait, items: [item(i)] });
+    lastWasFull = true;
+  } else if (next && isPortrait(next) === portrait) {
+    rows.push({ kind: 'pair', portrait, items: [item(i), item(i + 1)] });
+    lastWasFull = false;
+    i++;
+  } else {
+    rows.push({ kind: portrait ? 'single' : 'full', portrait, items: [item(i)] });
+    lastWasFull = !portrait;
+  }
+}
 
 // Large versions for the lightbox.
 const full = await Promise.all(
@@ -34,27 +56,31 @@ const full = await Promise.all(
 
 <div class="gallery" data-gallery>
   {
-    rows.map(({ photo, index, side, portrait }) => (
-      <figure class:list={[`item--${side}`, { 'item--portrait': portrait }]}>
-        <button
-          type="button"
-          class="open"
-          data-index={index}
-          data-full={full[index].src}
-          data-alt={photo.alt}
-          data-caption={photo.caption ?? ''}
-          aria-label={`Powiększ zdjęcie: ${photo.alt}`}
-        >
-          <Picture
-            src={photo.src}
-            alt={photo.alt}
-            formats={['avif', 'webp']}
-            widths={[480, 720, 1080, 1440, 1920]}
-            sizes="(min-width: 48rem) 62vw, 90vw"
-          />
-        </button>
-        {photo.caption && <figcaption>{photo.caption}</figcaption>}
-      </figure>
+    rows.map((row) => (
+      <div class:list={['row', `row--${row.kind}`, { 'row--portrait': row.portrait }]}>
+        {row.items.map(({ photo, index, side, portrait }) => (
+          <figure class:list={[`item--${side}`, { 'item--portrait': portrait }]}>
+            <button
+              type="button"
+              class="open"
+              data-index={index}
+              data-full={full[index].src}
+              data-alt={photo.alt}
+              data-caption={photo.caption ?? ''}
+              aria-label={`Powiększ zdjęcie: ${photo.alt}`}
+            >
+              <Picture
+                src={photo.src}
+                alt={photo.alt}
+                formats={['avif', 'webp']}
+                widths={[480, 720, 1080, 1440, 1920]}
+                sizes={row.kind === 'full' ? '(min-width: 58rem) 54rem, 90vw' : '(min-width: 58rem) 27rem, 90vw'}
+              />
+            </button>
+            {photo.caption && <figcaption>{photo.caption}</figcaption>}
+          </figure>
+        ))}
+      </div>
     ))
   }
 </div>
@@ -64,30 +90,10 @@ const full = await Promise.all(
 <style>
   .gallery {
     display: grid;
-    gap: clamp(2.5rem, 1.5rem + 3vw, 4.5rem);
   }
 
   figure {
     margin: 0;
-    width: 88vw;
-  }
-
-  .item--portrait {
-    width: 74vw;
-  }
-
-  @media (min-width: 48rem) {
-    figure {
-      width: 62vw;
-    }
-
-    .item--portrait {
-      width: 42vw;
-    }
-  }
-
-  .item--right {
-    margin-left: auto;
   }
 
   .open {
@@ -98,15 +104,6 @@ const full = await Promise.all(
     background: none;
     cursor: zoom-in;
     overflow: hidden;
-  }
-
-  /* Rounded on the side facing the middle of the page */
-  .item--left .open {
-    border-radius: 0 var(--corner-sm) var(--corner-sm) 0;
-  }
-
-  .item--right .open {
-    border-radius: var(--corner-sm) 0 0 var(--corner-sm);
   }
 
   .open :global(img) {
@@ -120,7 +117,77 @@ const full = await Promise.all(
     color: var(--muted);
   }
 
-  .item--left figcaption {
-    padding-left: var(--gutter);
+  /* Phones: one photo per row, alternately against the right and left edge,
+     rounded on the side facing the middle of the screen */
+  @media (max-width: 47.99rem) {
+    .gallery {
+      gap: 2.5rem;
+    }
+
+    .row {
+      display: contents;
+    }
+
+    figure {
+      width: 88vw;
+    }
+
+    .item--portrait {
+      width: 74vw;
+    }
+
+    .item--right {
+      margin-left: auto;
+    }
+
+    .item--left .open {
+      border-radius: 0 var(--corner-sm) var(--corner-sm) 0;
+    }
+
+    .item--right .open {
+      border-radius: var(--corner-sm) 0 0 var(--corner-sm);
+    }
+
+    .item--left figcaption {
+      padding-left: var(--gutter);
+    }
+  }
+
+  /* Desktop: full-width shots and pairs inside the page column, each with
+     the signature rounded corner */
+  @media (min-width: 48rem) {
+    .gallery {
+      gap: var(--gutter);
+      max-width: var(--max);
+      margin-inline: auto;
+      padding-inline: var(--gutter);
+    }
+
+    .row {
+      display: grid;
+      gap: var(--gutter);
+    }
+
+    .row--pair {
+      grid-template-columns: 1fr 1fr;
+    }
+
+    .row--single {
+      width: 50%;
+      margin-inline: auto;
+    }
+
+    .open {
+      border-radius: 0 0 var(--corner-sm) 0;
+    }
+
+    .row--pair :global(img) {
+      aspect-ratio: 5 / 4;
+      object-fit: cover;
+    }
+
+    .row--pair.row--portrait :global(img) {
+      aspect-ratio: 4 / 5;
+    }
   }
 </style>

@@ -15,7 +15,7 @@ import { site, url } from '../data/site';
     data-menu-toggle
   >
     <span class="menu-icon" aria-hidden="true"></span>
-    <span class="menu-label">Menu</span>
+    <span class="visually-hidden">Menu</span>
   </button>
   <nav id="site-nav" aria-label="Główna nawigacja">
     <ul>
@@ -95,9 +95,11 @@ import { site, url } from '../data/site';
     :global(.js) .menu-toggle {
       display: inline-flex;
       align-items: center;
-      gap: 0.6rem;
+      /* Icon only, with a comfortable tap area; the negative margin keeps
+         the lines flush with the right edge of the column */
       margin-left: auto;
-      padding: 0.6rem 0;
+      margin-right: -0.75rem;
+      padding: 1.1rem 0.75rem;
       border: 0;
       background: none;
       color: inherit;

@@ -4,7 +4,7 @@ import { getCollection } from 'astro:content';
 import Base from '../layouts/Base.astro';
 import StepIcon from '../components/StepIcon.astro';
 import { site, telHref, url } from '../data/site';
-import hero from '../content/realizacje/stara-ochota/01.jpg';
+import hero from '../content/realizacje/stara-ochota/03.jpg';
 
 const projects = (await getCollection('realizacje')).sort((a, b) => a.data.order - b.data.order);
 
@@ -47,11 +47,11 @@ const steps = [
   <section class="intro wrap" aria-labelledby="intro-title">
     <Picture
       src={hero}
-      alt="Salon z biblioteką od podłogi do sufitu na drewnianych regałach"
+      alt="Salon na Starej Ochocie: łukowa wnęka z witryną obok kominka i regały z książkami"
       class="intro-image corner"
       formats={['avif', 'webp']}
       widths={[640, 960, 1280, 1600, 1920]}
-      sizes="(min-width: 66rem) 62rem, 100vw"
+      sizes="(min-width: 58rem) 54rem, 100vw"
       loading="eager"
       fetchpriority="high"
     />
@@ -80,7 +80,7 @@ const steps = [
                 class="project-image corner"
                 formats={['avif', 'webp']}
                 widths={[480, 720, 1080, 1440]}
-                sizes={i === 0 ? '(min-width: 76rem) 72rem, 100vw' : '(min-width: 48rem) 36rem, 100vw'}
+                sizes={i === 0 ? '(min-width: 58rem) 54rem, 100vw' : '(min-width: 58rem) 27rem, (min-width: 48rem) 50vw, 100vw'}
               />
               <h3>{p.data.title}</h3>
               {p.data.subtitle && <p>{p.data.subtitle}</p>}
@@ -166,9 +166,9 @@ const steps = [
     margin-bottom: 0;
   }
 
-  /* Sits right above the about text, so it stays a step below the page-headline size */
+  /* Same size as the section titles, to keep the number of sizes down */
   h1 {
-    font-size: clamp(1.625rem, 1.35rem + 0.9vw, 2.25rem); /* 26 → 36px */
+    font-size: var(--text-lg);
     font-weight: 350;
     line-height: 1.12;
     letter-spacing: -0.015em;
@@ -244,13 +244,13 @@ const steps = [
   }
 
   .project a:hover h3 {
-    color: var(--walnut);
+    color: var(--sage-dark);
   }
 
   /* Process */
   .process {
-    background: var(--niche);
-    color: var(--niche-ink);
+    background: var(--sage);
+    color: var(--sage-ink);
     border-radius: 0 var(--corner) 0 0;
   }
 
@@ -277,7 +277,7 @@ const steps = [
   }
 
   .steps li + li {
-    border-top: 1px solid color-mix(in srgb, var(--niche-ink) 22%, transparent);
+    border-top: 1px solid color-mix(in srgb, var(--sage-ink) 25%, transparent);
   }
 
   summary {

@@ -31,7 +31,7 @@ const [cover, ...rest] = photos;
           class="cover corner"
           formats={['avif', 'webp']}
           widths={[640, 960, 1280, 1920]}
-          sizes="(min-width: 66rem) 62rem, 100vw"
+          sizes="(min-width: 58rem) 54rem, 100vw"
           loading="eager"
           fetchpriority="high"
         />
@@ -53,11 +53,13 @@ const [cover, ...rest] = photos;
 
     {
       next.id !== project.id && (
-        <nav class="wrap next" aria-label="Kolejna realizacja">
-          <a href={url(`/realizacje/${next.id}/`)}>
-            <span class="next-label">Następna realizacja</span>
-            <span class="next-title">{next.data.title}</span>
-          </a>
+        <nav class="next" aria-label="Kolejna realizacja">
+          <div class="wrap">
+            <a href={url(`/realizacje/${next.id}/`)}>
+              <span class="next-label">Następna realizacja</span>
+              <span class="next-title">{next.data.title}</span>
+            </a>
+          </div>
         </nav>
       )
     }
@@ -72,16 +74,17 @@ const [cover, ...rest] = photos;
     padding-block: clamp(1.5rem, 1rem + 3vw, 3.5rem) clamp(3rem, 2rem + 4vw, 5rem);
   }
 
+  /* Same sizes as the home page: title like a section title, running text
+     at body size */
   h1 {
-    font-size: var(--text-xl);
+    font-size: var(--text-lg);
     font-weight: 350;
-    letter-spacing: -0.02em;
+    letter-spacing: -0.015em;
   }
 
   .subtitle {
-    font-size: var(--text-md);
     color: var(--muted);
-    margin: 0.6rem 0 0;
+    margin: 0.4rem 0 0;
   }
 
   :global(.cover) {
@@ -92,11 +95,8 @@ const [cover, ...rest] = photos;
 
   /* Description sits under the cover, indented to the right on wide
      screens so it reads as part of the page rhythm, not a caption. */
-  /* The project's story is the main text here, so it gets the larger size */
   .description {
-    max-width: 38rem;
-    font-size: var(--text-md);
-    line-height: 1.5;
+    max-width: var(--measure);
   }
 
   @media (min-width: 56rem) {
@@ -111,9 +111,11 @@ const [cover, ...rest] = photos;
     color: var(--muted);
   }
 
+  /* Full-width rule like the footer's, with little air: the two read as
+     one compact page ending */
   .next {
-    margin-top: clamp(4rem, 2rem + 6vw, 7rem);
-    padding-block: 2rem clamp(3rem, 2rem + 4vw, 5rem);
+    margin-top: clamp(3rem, 2rem + 3vw, 4.5rem);
+    padding-block: 1.5rem;
     border-top: 1px solid var(--line);
   }
 
@@ -135,7 +137,7 @@ const [cover, ...rest] = photos;
   }
 
   .next a:hover .next-title {
-    color: var(--walnut);
+    color: var(--sage-dark);
     text-decoration: underline;
     text-decoration-thickness: 2px;
     text-underline-offset: 0.15em;

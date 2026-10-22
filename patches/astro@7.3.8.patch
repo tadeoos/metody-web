@@ -1,0 +1,14 @@
+diff --git a/dist/assets/services/sharp.js b/dist/assets/services/sharp.js
+index 4e82757f5d4da7df67d734d177d1d50bdacc4c4a..d41a6c54dc4674d9b8a1453df3ac78c674e23f53 100644
+--- a/dist/assets/services/sharp.js
++++ b/dist/assets/services/sharp.js
+@@ -117,6 +117,9 @@ const sharpService = {
+ 		});
+ 		// always call rotate to adjust for EXIF data orientation
+ 		result.rotate();
++		// Metody: tag the output as sRGB so every browser shows the photos'
++		// colours as intended (untagged images are not colour-managed everywhere)
++		result.withIccProfile("srgb");
+ 		if (transform.width && transform.height) {
+ 			const fit = transform.fit ? fitMap[transform.fit] ?? "inside" : undefined;
+ 			result.resize({
