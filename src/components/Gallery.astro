@@ -16,12 +16,14 @@ interface Props {
 const { photos } = Astro.props;
 
 // Desktop: an editorial rhythm inside the page column – a full-width landscape
-// shot, then pairs of photos with the same orientation, then full width again.
-// Phones: the rows dissolve into one photo per row, alternately against the
-// right and left screen edge (as in the Figma mock-up).
+// shot, then pairs, then full width again. Pairs are usually two photos of the
+// same orientation; a portrait that would otherwise stand alone sits next to
+// the following landscape instead. Both photos in a pair get the same height,
+// uncropped. Phones: the rows dissolve into one photo per row, alternately
+// against the right and left screen edge (as in the Figma mock-up).
 const isPortrait = (p: Photo) => p.src.height > p.src.width * 1.05;
 type Item = { photo: Photo; index: number; side: 'left' | 'right'; portrait: boolean };
-type Row = { kind: 'full' | 'pair' | 'single'; portrait: boolean; items: Item[] };
+type Row = { kind: 'full' | 'pair' | 'single'; items: Item[] };
 
 const item = (i: number): Item => ({
   photo: photos[i],
@@ -36,17 +38,23 @@ for (let i = 0; i < photos.length; i++) {
   const portrait = isPortrait(photos[i]);
   const next = photos[i + 1];
   if (!portrait && (!lastWasFull || !next)) {
-    rows.push({ kind: 'full', portrait, items: [item(i)] });
+    rows.push({ kind: 'full', items: [item(i)] });
     lastWasFull = true;
-  } else if (next && isPortrait(next) === portrait) {
-    rows.push({ kind: 'pair', portrait, items: [item(i), item(i + 1)] });
+  } else if (next && (isPortrait(next) === portrait || (portrait && photos[i + 2]))) {
+    rows.push({ kind: 'pair', items: [item(i), item(i + 1)] });
     lastWasFull = false;
     i++;
   } else {
-    rows.push({ kind: portrait ? 'single' : 'full', portrait, items: [item(i)] });
+    rows.push({ kind: portrait ? 'single' : 'full', items: [item(i)] });
     lastWasFull = !portrait;
   }
 }
+
+// Column widths proportional to the aspect ratios give equal heights.
+const columns = (row: Row) =>
+  row.kind === 'pair'
+    ? `grid-template-columns: ${row.items.map(({ photo }) => `${(photo.src.width / photo.src.height).toFixed(3)}fr`).join(' ')}`
+    : undefined;
 
 // Large versions for the lightbox.
 const full = await Promise.all(
@@ -57,7 +65,7 @@ const full = await Promise.all(
 <div class="gallery" data-gallery>
   {
     rows.map((row) => (
-      <div class:list={['row', `row--${row.kind}`, { 'row--portrait': row.portrait }]}>
+      <div class:list={['row', `row--${row.kind}`]} style={columns(row)}>
         {row.items.map(({ photo, index, side, portrait }) => (
           <figure class:list={[`item--${side}`, { 'item--portrait': portrait }]}>
             <button
@@ -168,10 +176,6 @@ const full = await Promise.all(
       gap: var(--gutter);
     }
 
-    .row--pair {
-      grid-template-columns: 1fr 1fr;
-    }
-
     .row--single {
       width: 50%;
       margin-inline: auto;
@@ -179,15 +183,6 @@ const full = await Promise.all(
 
     .open {
       border-radius: 0 0 var(--corner-sm) 0;
-    }
-
-    .row--pair :global(img) {
-      aspect-ratio: 5 / 4;
-      object-fit: cover;
-    }
-
-    .row--pair.row--portrait :global(img) {
-      aspect-ratio: 4 / 5;
     }
   }
 </style>

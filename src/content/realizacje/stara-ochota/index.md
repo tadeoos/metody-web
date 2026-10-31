@@ -1,7 +1,8 @@
 ---
 title: Stara Ochota
-subtitle: Mieszkanie od biblioteki po łazienkę
+subtitle: Zaskakujące rozwiązania w przedwojennej kamienicy
 order: 2
+projekt: Stanisław Depowski
 zdjecia: Jędrzej Sokołowski
 photos:
   - src: ./01.jpg
@@ -10,23 +11,18 @@ photos:
     alt: Łukowa wnęka z witryną obok kominka i regałów z książkami
   - src: ./02.jpg
     alt: Regały biblioteki z bliska, z zielonymi pionami i drewnianymi półkami
-  - src: ./04.jpg
-    alt: Witryna w łukowej wnęce nad kaflowym piecykiem
-  - src: ./06.jpg
-    alt: Jasne szafy wnękowe w sypialni, obok drewniana obudowa
   - src: ./05.jpg
     alt: Widok przez łukowe drzwi na sypialnię z półkami nad łóżkiem
+  - src: ./06.jpg
+    alt: Jasne szafy wnękowe w sypialni, obok drewniana obudowa
   - src: ./07.jpg
     alt: Toaletka z drewnianym lustrem i zieloną podstawą
   - src: ./08.jpg
-    alt: Detal białego frontu z wycięciami wentylacyjnymi
-    caption: Wycięcia wentylacyjne we froncie zabudowy
+    alt: Detal białego frontu z frezowanymi wycięciami wentylacyjnymi
   - src: ./11.jpg
     alt: Kuchnia z zamkniętą wysoką zabudową z drewna
-    caption: Kuchnia z zamkniętą zabudową…
   - src: ./12.jpg
     alt: Ta sama kuchnia z otwartym barkiem we wnęce
-    caption: …i z otwartym barkiem schowanym we wnęce
   - src: ./09.jpg
     alt: Kuchnia z drewnianymi szafkami, bordową kuchenką i marmurową ścianą
   - src: ./13.jpg
@@ -39,6 +35,4 @@ photos:
     alt: Łazienka z drewnianą półką nad wanną i oknem
 ---
 
-<!-- DO UZUPEŁNIENIA: opis od pracowni – co w tym projekcie było najciekawsze. -->
-
-Całe mieszkanie na Starej Ochocie: biblioteka od podłogi do sufitu, witryny w łukowych wnękach, kuchnia, szafy, toaletka i zabudowy w łazience. Wszystko projektowane tak, żeby współgrało z łukami, starym parkietem i kolorami wnętrza.
+Niemal każdy mebel w tym mieszkaniu ma w sobie coś oryginalnego. W bibliotece okalającej trzy z czterech ścian salonu dominuje fornir, a konstrukcja wsparta jest na specjalnie w tym celu wyspawanych stalowych nogach. W kuchni powstała spiżarnia, będąca wariacją na temat znanej sprzed lat „zimnej szafki” z ukrytym w środku oknem. Łukowatą wnękę nad kominkiem wypełnia witryna, której bok był gięty na kopycie oddającym kształt ściany. W rogu sypialni stanęła toaletka, wsparta na skośnych nogach z grubej blachy oraz z blatem wykończonym linoleum meblowym Forbo. Całość nie pozostawia odbiorcy obojętnym.

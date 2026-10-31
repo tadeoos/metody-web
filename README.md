@@ -36,7 +36,8 @@ pnpm build      # produkcyjny build do dist/
    title: Szafa na Mokotowie
    subtitle: Jedno zdanie, które pojawi się pod tytułem
    order: 4            # kolejność na stronie głównej (mniejsza = wyżej)
-   zdjecia: Imię Nazwisko   # autor zdjęć, opcjonalnie – mała linijka pod opisem
+   projekt: Imię Nazwisko   # autor projektu, opcjonalnie – mała linijka pod opisem
+   zdjecia: Imię Nazwisko   # autor zdjęć, opcjonalnie – jak wyżej
    tile: ./05.jpg      # opcjonalnie: inne zdjęcie na kafelek na stronie głównej
    photos:
      - src: ./01.jpg   # pierwsze zdjęcie = okładka
@@ -51,10 +52,15 @@ pnpm build      # produkcyjny build do dist/
 
 4. Commit + push do `main` – GitHub sam zbuduje i opublikuje stronę (ok. 2–3 minuty).
 
-Galeria układa się sama. Na komputerze: zdjęcie poziome na całą szerokość, potem pary zdjęć
-o tej samej orientacji. Na telefonie: jedno zdjęcie w rzędzie, na przemian przy prawej i lewej krawędzi ekranu.
+Galeria układa się sama, według kolejności w `photos`. Na komputerze: zdjęcie poziome na całą
+szerokość, potem para zdjęć, potem znów całe – zdjęcia w parze mają równą wysokość i nie są przycinane.
+Pionowe zdjęcie, które nie ma pionowej pary, staje obok następnego poziomego. Na telefonie: jedno
+zdjęcie w rzędzie, na przemian przy prawej i lewej krawędzi ekranu.
 Pole `caption` to opcjonalny podpis pod zdjęciem (mały, szary tekst) – używaj
 oszczędnie, do rzeczy, których nie widać od razu.
+
+Jednoliterowe słowa (a, i, o, u, w, z) same „sklejają się” z następnym słowem, żeby nie wisiały
+na końcu linijki (`src/middleware.ts`) – w tekstach nie trzeba wstawiać twardych spacji.
 
 ## Podgląd bez domeny
 

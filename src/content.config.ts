@@ -16,7 +16,8 @@ const realizacje = defineCollection({
       subtitle: z.string().optional(),
       // Lower numbers are shown first on the home page.
       order: z.number(),
-      // Photo credit, shown as a small line under the description.
+      // Credits, shown as small lines under the description.
+      projekt: z.string().optional(),
       zdjecia: z.string().optional(),
       // Optional photo for the home page tile; defaults to the cover.
       tile: image().optional(),

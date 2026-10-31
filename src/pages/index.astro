@@ -7,25 +7,28 @@ import { site, telHref, url } from '../data/site';
 import hero from '../content/realizacje/stara-ochota/03.jpg';
 
 const projects = (await getCollection('realizacje')).sort((a, b) => a.data.order - b.data.order);
+// The first tile spans the full width, the rest go in pairs; a last tile
+// left without a pair spans the full width too.
+const isWide = (i: number) => i === 0 || (i === projects.length - 1 && i % 2 === 1);
 
 const steps = [
   {
     title: 'Ustalenie ram współpracy',
     text: [
-      'Na wstępie musimy wiedzieć, co i w jakim terminie mamy zbudować. Najwygodniej rozmawiać o tym w oparciu o projekt. W przypadku nieskomplikowanych realizacji wystarczy nawet szkic na serwetce. Jeśli ma powstać coś większego, przyda się bardziej zaawansowany projekt – bez obaw, możemy Cię w tym wesprzeć!',
+      'Na wstępie musimy wiedzieć, co i w jakim terminie mamy zbudować. Najwygodniej rozmawiać o tym w oparciu o rysunki. W przypadku nieskomplikowanych realizacji wystarczy nawet szkic na serwetce. Jeśli ma powstać coś większego, przyda się bardziej zaawansowany projekt – bez obaw, możemy Cię w tym wesprzeć!',
     ],
   },
   {
     title: 'Wycena',
     text: [
-      'Na podstawie omówionego projektu przygotujemy wycenę. Przedstawimy w niej, z jakich konkretnie materiałów powstaną Twoje meble, jakie zastosujemy okucia i wykończenie. Koszt przygotowania wyceny jest po naszej stronie.',
-      'Jeśli jednak z góry wiadomo, że nie będziemy realizować Twojego zlecenia, bo na przykład nie zgrywamy się terminowo, a i tak chcesz dostać od nas wycenę, możemy potraktować to jako odrębną, odpłatną usługę.',
+      'Na podstawie omówionego projektu przygotujemy wycenę. Przedstawimy w niej, z jakich materiałów powstaną Twoje meble, jakie zastosujemy okucia i wykończenie. Koszt przygotowania wyceny jest po naszej stronie.',
+      'Jeśli jednak z góry wiadomo, że nie będziemy realizować Twojego zlecenia, bo na przykład nie zgrywamy się terminowo, ale i tak chciałbyś dostać od nas wycenę, możemy to potraktować jako odrębną, odpłatną usługę.',
     ],
   },
   {
     title: 'Pomiar i projekt wykonawczy',
     text: [
-      'Gdy już będziemy wiedzieć co, kiedy i za ile, dopniemy sprawę od strony formalnej i poprosimy Cię o zaliczkę. Pracę zaczniemy od szczegółowych pomiarów i rysunków technicznych. To też czas na ostatnie, najbardziej szczegółowe decyzje – na przykład o układzie liści wybranego przez Ciebie forniru czy sposobie jego malowania.',
+      'Gdy już będziemy wiedzieć co, kiedy i za ile, dopniemy sprawę od strony formalnej oraz poprosimy Cię o zaliczkę. Robotę zaczniemy od zrobienia dokładnych pomiarów i przygotowania rysunków technicznych. Będzie to czas na podjęcie ostatnich, najbardziej szczegółowych decyzji – na przykład dotyczących układu liści wybranego przez Ciebie forniru czy sposobu jego malowania.',
     ],
   },
   {
@@ -37,7 +40,7 @@ const steps = [
   {
     title: 'Montaż',
     text: [
-      'W umówionym terminie przyjedziemy do Ciebie z przygotowanymi w pracowni meblami. Na miejscu złożymy je w całość, dotniemy i doszlifujemy tak, żeby ostateczny efekt był jak najlepszy.',
+      'W umówionym wcześniej terminie przyjedziemy do Ciebie z przygotowanymi w pracowni meblami. Na miejscu złożymy je w całość i wykończymy tak, żeby ostateczny efekt był jak najlepszy.',
     ],
   },
 ] as const;
@@ -56,12 +59,12 @@ const steps = [
       fetchpriority="high"
     />
     <div class="intro-text">
-      <h1 id="intro-title">Specjalizujemy się w&nbsp;meblach na zamówienie.</h1>
+      <h1 id="intro-title" class="section-title">Specjalizujemy się w meblach na zamówienie</h1>
       <div class="prose about">
         <p>
-          Lubimy niestandardowe zlecenia i rozumiemy, że niuanse często mają olbrzymie znaczenie dla
-          ostatecznego efektu. Działamy w skali rzemieślniczej, dzięki czemu możemy poświęcić na Twój
-          projekt tyle uwagi, ile tylko będzie potrzebne.
+          Lubimy niestandardowe zlecenia i wiemy, że niuanse mają duże znaczenie dla ostatecznego
+          efektu. Działamy w skali rzemieślniczej, dzięki czemu możemy poświęcić na Twój projekt tyle
+          uwagi, ile będzie trzeba.
         </p>
       </div>
     </div>
@@ -72,7 +75,7 @@ const steps = [
     <ul class="project-grid">
       {
         projects.map((p, i) => (
-          <li class:list={['project', { 'project--wide': i === 0 }]}>
+          <li class:list={['project', { 'project--wide': isWide(i) }]}>
             <a href={url(`/realizacje/${p.id}/`)}>
               <Picture
                 src={p.data.tile ?? p.data.photos[0].src}
@@ -80,7 +83,7 @@ const steps = [
                 class="project-image corner"
                 formats={['avif', 'webp']}
                 widths={[480, 720, 1080, 1440]}
-                sizes={i === 0 ? '(min-width: 58rem) 54rem, 100vw' : '(min-width: 58rem) 27rem, (min-width: 48rem) 50vw, 100vw'}
+                sizes={isWide(i) ? '(min-width: 58rem) 54rem, 100vw' : '(min-width: 58rem) 27rem, (min-width: 48rem) 50vw, 100vw'}
               />
               <h3>{p.data.title}</h3>
               {p.data.subtitle && <p>{p.data.subtitle}</p>}
@@ -122,7 +125,7 @@ const steps = [
 
   <section id="kontakt" class="section wrap contact" aria-labelledby="kontakt-title">
     <h2 id="kontakt-title" class="section-title">Kontakt</h2>
-    <p class="contact-lead">Masz pomysł na mebel? Napisz albo zadzwoń – zaczniemy od rozmowy.</p>
+    <p class="contact-lead">Chciałbyś zrealizować z nami swój projekt? Napisz lub zadzwoń.</p>
     <dl class="contact-list">
       {site.email && (
         <div>
@@ -166,12 +169,9 @@ const steps = [
     margin-bottom: 0;
   }
 
-  /* Same size as the section titles, to keep the number of sizes down */
+  /* The headline is styled exactly like the section titles (.section-title) */
   h1 {
-    font-size: var(--text-lg);
-    font-weight: 350;
-    line-height: 1.12;
-    letter-spacing: -0.015em;
+    margin-bottom: 0;
   }
 
   :global(.intro-image) {
@@ -180,10 +180,13 @@ const steps = [
     object-fit: cover;
   }
 
+  /* 16:9 keeps the whole niche arch and the tops of the doors in frame;
+     on short screens the crop leans slightly upwards */
   @media (min-width: 48rem) {
     :global(.intro-image) {
-      aspect-ratio: 2 / 1;
-      max-height: 58svh;
+      aspect-ratio: 16 / 9;
+      max-height: 62svh;
+      object-position: 50% 40%;
     }
   }
 
@@ -346,8 +349,6 @@ const steps = [
 
   dd {
     margin: 0;
-    font-size: var(--text-md);
-    line-height: 1.3;
     overflow-wrap: anywhere;
   }
 
